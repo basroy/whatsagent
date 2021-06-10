@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Editors
-#git .idea/
+.idea/
 
 # Virtual environment
 .venv/
