@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 
 class Question:
@@ -202,58 +202,76 @@ class Survey_Result:
     def survey_result(self, result: str):
         print(result)
 
-    def survey_choice(self, question: List) -> str:
-        question_one: str = question[1]
-        question_two: str = question[1]
-        question_three: List = question[2]
-        question_four: str = question[2]
-        question_five: str = question[4]
+    def survey_choice(self, question: Dict) -> str:
         result_text: str = ''
+        for key, answer_choice in question.items():
+            if key == 'ENVIRONMENT':
+                if answer_choice == 'ETL_LOGS':
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A1']
 
-        if question_one:
-            for keys, items in Answers_Environment.Environment:
-                if keys == 'ETL_LOGS':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q1_A1']
+                elif answer_choice == 'ANAPLAN_LOGS':
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A2']
+                elif answer_choice == 'ANAPLAN_DATA':
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A3']
+                elif answer_choice == 'SHELL' or answer_choice == 'FILES':
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A4']
 
-                elif keys == 'ANAPLAN_LOGS':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q1_A2']
-                elif keys == 'ANAPLAN_DATA':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q1_A3']
-                elif keys == 'SHELL' or keys == 'FILES':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q1_A4']
-
-        if question_two:
-            for keys, items in Answers_Audit_Types.Audit_Type:
-                if keys == 'SCRIPT_LOGS' or keys == 'PYTHON_ETL':
-                    self.result_text += Survey_Result.QUES_ANS_PAIR['Q2_A1']
-                elif keys == 'BINARY_LOGS' or keys == 'NEW':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q2_A2']
-        if question_three:
-            for keys, items in Answers_Anaplan.Modules:
+            elif key == 'AUDIT_TYPES':
                 if (
-                        keys == 'CX_TSS_ATR' and keys == 'SCLASS_INVALID_PARTY'
-                        and keys == 'NLG_PLANNING'
+                        answer_choice == 'SCRIPT_LOGS'
+                        or answer_choice == 'PYTHON_ETL'
                 ):
-                    self.result_text += Survey_Result.QUES_ANS_PAIR['Q3_A1']
-                elif keys == 'NLG_GOALING' or keys == 'SCLASS_CONTAINER':
-                    self.result_text = Survey_Result.QUES_ANS_PAIR['Q3_A3']
+                    result_text += Survey_Result.QUES_ANS_PAIR['Q2_A1']
+                elif answer_choice == 'BINARY_LOGS' or answer_choice == 'NEW':
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q2_A2']
+
+            elif key == 'AUDIT_CRITERIA':
+                answer_choice_1: str = answer_choice.split(':')[0]
+                answer_choice_2: str = answer_choice.split(':')[1]
+                answer_choice_3: str = answer_choice.split(':')[2]
+
                 if (
-                        keys == 'CX_TSS_ATR' and
+                        answer_choice_1 == 'CX_TSS_ATR'
+                        and answer_choice_2 == 'SCLASS_INVALID_PARTY'
+                        and answer_choice_3 == 'NLG_PLANNING'
+                ):
+                    print('Its here')
+                    result_text += Survey_Result.QUES_ANS_PAIR['Q3_A1']
+                elif (
+                        answer_choice_1 == 'NLG_GOALING'
+                        or answer_choice_2 == 'SCLASS_CONTAINER'
+                ):
+                    result_text = Survey_Result.QUES_ANS_PAIR['Q3_A3']
+                if (
+                        answer_choice_1 == 'CX_TSS_ATR' and
                         (
-                                keye == 'SCLASS_INVALID_PARTY'
-                                or keys == 'NLG_PLANNING'
+                                answer_choice_2 == 'SCLASS_INVALID_PARTY'
+                                or answer_choice_3 == 'NLG_PLANNING'
                         )
                 ):
-                    self.result_text += Survey_Result.QUES_ANS_PAIR['Q3_A2']
+                    result_text += Survey_Result.QUES_ANS_PAIR['Q3_A2']
 
-        return self.result_text
+        return result_text
 
 
 surveyQuestion = Question()
-ques_and_ans: List = []
-print(surveyQuestion.Question_types.items())
+answerEnvironment = Answers_Environment()
+HTML_SURVEY: Dict = {}
+# print(surveyQuestion.Question_types.items())
 for key, question in surveyQuestion.Question_types.items():
-    print(question)
+    # print(question)
+    # print(surveyQuestion.Question_types[key])
+    if key == 'ENVIRONMENT':
+        qans: str = 'ETL_LOGS'
+    elif key == 'AUDIT_TYPES':
+        qans: str = 'SCRIPT_LOGS'
+    elif key == 'AUDIT_CRITERIA':
+        qans: str = 'CX_TSS_ATR:SCLASS_INVALID_PARTY:NLG_PLANNING'
+    else:
+        qans: str = 'No selection'
+    HTML_SURVEY[key] = qans
 
+print(HTML_SURVEY)
 surveyresult = Survey_Result()
-report_result: str = surveyresult.survey_choice(question=ques_and_ans)
+report_result: str = surveyresult.survey_choice(question=HTML_SURVEY)
+print(report_result)
