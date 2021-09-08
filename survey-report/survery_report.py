@@ -197,6 +197,30 @@ class Survey_Result:
             ' Sed ultricies venenatis mauris, in pharetra ante vulputate nec. '
             'Proin viverra convallis augue elementum volutpat.'
         ),
+        'Q4_A1': (
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+            'Calories: ..... Vivamus hendrerit arcu eros, nec bibendum mi'
+            ' sodales id. Ut auctor nisl a placerat porttitor. Duis at tortor '
+            'posuere, gravida sapien in, fermentum ligula. '
+            ''
+            'Quisque eu ipsum lobortis, hendrerit justo vitae, varius nisi.'
+            'Etiam in leo feugiat purus facilisis tempor.Fusce congue metus '
+            'non massa mollis, id imperdiet ex viverra.Cras Calories:.....'
+            'imperdiet lectus at imperdiet ornare.'
+        ),
+        'Q4_A2': (
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+            'Integer porta at odio ac rhoncus. Calories: ..... Integer viverra'
+            ' porta eros nec ultrices. Nullam ante sem, tincidunt vitae orci '
+            'id, vestibulum auctor risus. Phasellus sit amet lobortis eros. '
+            'Maecenas convallis dolor ex, vel congue ipsum ornare eu. '
+            ''
+            'Nunc in mattis dolor, quis posuere lorem. Calories: ..... Nullam '
+            'condimentum semper diam, lacinia tempor eros tristique ut. Etiam '
+            'ultrices imperdiet tortor at eleifend. Aenean lorem felis, '
+            'volutpat eu euismod at, congue id erat. Duis luctus quam vitae'
+            ' mattis tempus.'
+        )
     }
 
     def survey_result(self, result: str):
@@ -268,6 +292,31 @@ class Survey_Result:
                     result_text += Survey_Result.QUES_ANS_PAIR['Q3_A2']
                     print(f' For AUDIT_CRITERIA Result is --> Q3_A2')
 
+            elif key == 'SIZE':
+                answer_choice_1, answer_choice_2 = (
+                    answer_choice[0], answer_choice[1]
+                )
+                answer_choice_1_1: int = int(answer_choice_1)
+
+                if (
+                        answer_choice_1_1 > 2
+                        and answer_choice_2 == 'GB'
+                ) or (
+                        answer_choice_1_1 > 100
+                        and answer_choice_2 == 'MB'
+                ):
+                    result_text += Survey_Result.QUES_ANS_PAIR['Q4_A1']
+                    print(f' For environment Result is --> Q5_A1')
+                elif (
+                        answer_choice_1_1 < 2
+                        and answer_choice_2 == 'GB'
+                ) or (
+                        answer_choice_1_1 < 50
+                        and answer_choice_2 == 'MB'
+                ):
+                    result_text += Survey_Result.QUES_ANS_PAIR['Q4_A2']
+                    print(f' For environment Result is --> Q4_A2')
+
         return result_text
 
 
@@ -286,7 +335,7 @@ for key, question in surveyQuestion.Question_types.items():
         qans: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY',
                       'NLG_PLANNING']
     elif key == 'SIZE':
-        qans: List = ['2:GB']
+        qans: List = [3, 'GB']
     else:
         qans: str = 'No selection'
     HTML_SURVEY[key] = qans
