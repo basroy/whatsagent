@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 
 class Question:
@@ -204,45 +204,61 @@ class Survey_Result:
 
     def survey_choice(self, question: Dict) -> str:
         result_text: str = ''
+
         for key, answer_choice in question.items():
             if key == 'ENVIRONMENT':
+                answer_choice: str = answer_choice[0]
                 if answer_choice == 'ETL_LOGS':
                     result_text = Survey_Result.QUES_ANS_PAIR['Q1_A1']
-
+                    print(f' For environment Result is --> Q1_A1')
                 elif answer_choice == 'ANAPLAN_LOGS':
                     result_text = Survey_Result.QUES_ANS_PAIR['Q1_A2']
+                    print(f' For environment Result is --> Q1_A2')
                 elif answer_choice == 'ANAPLAN_DATA':
                     result_text = Survey_Result.QUES_ANS_PAIR['Q1_A3']
+                    print(f' For environment Result is --> Q1_A2')
                 elif answer_choice == 'SHELL' or answer_choice == 'FILES':
                     result_text = Survey_Result.QUES_ANS_PAIR['Q1_A4']
-
+                    print(f' For environment Result is --> Q1_A4')
             elif key == 'AUDIT_TYPES':
+                answer_choice: str = answer_choice[0]
                 if (
                         answer_choice == 'SCRIPT_LOGS'
                         or answer_choice == 'PYTHON_ETL'
                 ):
                     result_text += Survey_Result.QUES_ANS_PAIR['Q2_A1']
+                    print(f' For environment Result is --> Q2_A1')
                 elif answer_choice == 'BINARY_LOGS' or answer_choice == 'NEW':
                     result_text = Survey_Result.QUES_ANS_PAIR['Q2_A2']
+                    print(f' For environment Result is --> Q2_A2')
 
             elif key == 'AUDIT_CRITERIA':
-                answer_choice_1: str = answer_choice.split(':')[0]
-                answer_choice_2: str = answer_choice.split(':')[1]
-                answer_choice_3: str = answer_choice.split(':')[2]
+                print(answer_choice)
+                answer_choice_1, answer_choice_2, answer_choice_3 = \
+                    answer_choice[0], answer_choice[1], answer_choice[2]
 
                 if (
                         answer_choice_1 == 'CX_TSS_ATR'
-                        and answer_choice_2 == 'SCLASS_INVALID_PARTY'
-                        and answer_choice_3 == 'NLG_PLANNING'
+                        or answer_choice_1 == 'SCLASS_INVALID_PARTY'
+                        or answer_choice_1 == 'NLG_PLANNING'
+                ) and (
+                        answer_choice_2 == 'CX_TSS_ATR'
+                        or answer_choice_2 == 'SCLASS_INVALID_PARTY'
+                        or answer_choice_2 == 'NLG_PLANNING'
+                ) and (
+                        answer_choice_3 == 'CX_TSS_ATR'
+                        or answer_choice_3 == 'SCLASS_INVALID_PARTY'
+                        or answer_choice_3 == 'NLG_PLANNING'
                 ):
-                    print('Its here')
                     result_text += Survey_Result.QUES_ANS_PAIR['Q3_A1']
+                    print(f' For AUDIT_CRITERIA Result is --> Q3_A1')
                 elif (
                         answer_choice_1 == 'NLG_GOALING'
                         or answer_choice_2 == 'SCLASS_CONTAINER'
                 ):
                     result_text = Survey_Result.QUES_ANS_PAIR['Q3_A3']
-                if (
+                    print(f' For AUDIT_CRITERIA Result is --> Q3_A3')
+                elif (
                         answer_choice_1 == 'CX_TSS_ATR' and
                         (
                                 answer_choice_2 == 'SCLASS_INVALID_PARTY'
@@ -250,6 +266,7 @@ class Survey_Result:
                         )
                 ):
                     result_text += Survey_Result.QUES_ANS_PAIR['Q3_A2']
+                    print(f' For AUDIT_CRITERIA Result is --> Q3_A2')
 
         return result_text
 
@@ -262,11 +279,14 @@ for key, question in surveyQuestion.Question_types.items():
     # print(question)
     # print(surveyQuestion.Question_types[key])
     if key == 'ENVIRONMENT':
-        qans: str = 'ETL_LOGS'
+        qans: List = ['ETL_LOGS']
     elif key == 'AUDIT_TYPES':
-        qans: str = 'SCRIPT_LOGS'
+        qans: List = ['SCRIPT_LOGS']
     elif key == 'AUDIT_CRITERIA':
-        qans: str = 'CX_TSS_ATR:SCLASS_INVALID_PARTY:NLG_PLANNING'
+        qans: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY',
+                      'NLG_PLANNING']
+    elif key == 'SIZE':
+        qans: List = ['2:GB']
     else:
         qans: str = 'No selection'
     HTML_SURVEY[key] = qans
