@@ -1,5 +1,7 @@
 from typing import Dict, List
 
+from lorem_text import Survey_Result, Dicts_Answer
+
 
 class Question:
     Question_types: Dict = {
@@ -15,14 +17,12 @@ class Question:
         ),
         'SIZE': 'What is typical audit size?',
 
-        'IMPORTANCE': (
-            'How does the audits help the organization?'
-        )
+        'IMPORTANCE': 'Do the audits help the organization?'
     }
 
 
-class Answers_Environment:
-    Environment: Dict = {
+class AnswersEnvironment:
+    environment: Dict = {
         'ETL_LOGS': (
             'Informatica logs, which are in binary format, to look for '
             'failed executions, and to compare source and target counts of '
@@ -80,267 +80,304 @@ class Answers_Importance:
         'HIGH': 'Must not skip any day.',
         'MEDIUM': 'The data gets refreshed on next cycle.',
         'LOW': 'Good to have audits',
-        'IF HIGH': 'Frequency, daily, weekly, hourly......'
+        'IF HIGH': [
+            'Data Quality', 'Recovery', 'Analysis',
+            'Data Dependency', 'Reporting'
+        ]
     }
 
 
-class Survey_Result:
-    QUES_ANS_PAIR: Dict = {
-        'Q1_A1': (
-            'Lorem ipsum 1. Question - ANSWER_1 dolor sit amet, consectetur '
-            'adipiscing elit. Mauris sed ligula vitae tellus pellentesque '
-            'vehicula nec eu velit. Curabitur luctus et nibh et ornare. '
-            'Suspendisse non mattis lacus. Cras vitae mi ornare, euismod velit'
-            ' sit amet, iaculis tortor. In tempor purus sapien.'
-            '\n'
-            'Donec tincidunt 1. Question - ANSWER_1 metus nec dui tristique'
-            'malesuada.Praesent lectus nunc, accumsan vel justo in, imperdiet'
-            'faucibus leo.Nullam efficitur massa nec turpis tincidunt, feugiat'
-            'viverra erat rutrum.Aliquam eget auctor lectus, mollis bl andit '
-            'ipsum.Phasellus maximus finibus arcu a tincidunt.'
-        ),
-        'Q1_A2': (
-            'Lorem ipsum 1. Question - ANSWER_2 dolor sit amet, consectetur'
-            ' adipiscing elit. Ut et augue id leo egestas interdum in eu '
-            'lectus. Aliquam vel finibus nisi. Vestibulum mattis sagittis '
-            'lectus sed pulvinar. Sed aliquam felis tortor, sed scelerisque '
-            'nibh cursus sit amet. Donec a sollicitudin nisi. Mauris non enim '
-            'ac felis lobortis commodo. Sed laoreet tellus non felis rutrum, '
-            'in hendrerit ipsum porta. Sed quis sem velit.'
-        ),
-        'Q1_A3': (
-            'Sed vel bibendum tortor. Proin a aliquet tortor. Vivamus rhoncus'
-            ' 1. Question - ANSWER_3 risus nec ultricies rutrum. Mauris '
-            'bibendum lectus risus, non porttitor urna interdum quis. '
-            ''
-            'Suspendisse quis risus scelerisque, 1. Question - ANSWER_3 '
-            'feugiat augue nec, semper leo. Fusce euismod facilisis mi, '
-            'tristique sollicitudin metus hendrerit non. Nulla ac sodales '
-            'quam, sit amet finibus metus. Ut in felis tellus. Sed aliquet'
-            ' metus ullamcorper est vestibulum mattis. Cras nisi sem, euismod'
-            ' in egestas vel, ullamcorper ac sapien. In porttitor elementum'
-            ' faucibus.'
-        ),
-        'Q1_A4': (
-            'Mauris urna nunc, eleifend id sapien eget, tincidunt venenatis '
-            'risus. Vestibulum imperdiet enim at nibh sodales, 1. Question - '
-            'ANSWER_4 or ANSWER_5 or ANSWER_6 eget scelerisque odio finibus.'
-            ''
-            'Nullam ut mi eget sapien accumsan iaculis. Vestibulum in maximus '
-            'metus, 1. Question - ANSWER_4 or ANSWER_5 or ANSWER_6 vitae '
-            'venenatis sapien. Nullam auctor odio vehicula, posuere elit in,'
-            ' ullamcorper lectus. Mauris pharetra dapibus congue. Suspendisse'
-            ' potenti.'
-        ),
-        'Q2_A1': (
-            'Mauris urna nunc, eleifend id sapien eget, 2. Question - ANSWER_1'
-            ' or ANSWER_3 tincidunt venenatis risus. Vestibulum imperdiet enim'
-            ' at nibh sodales, eget scelerisque odio finibus. Nullam ut mi eget'
-            ' sapien accumsan iaculis. Vestibulum in maximus metus, vitae '
-            'venenatis sapien. Nullam auctor odio vehicula, posuere elit in, '
-            'ullamcorper lectus. Mauris pharetra dapibus congue. 2. Question - '
-            'ANSWER_1 or ANSWER_3 Suspendisse potenti.'
-        ),
-        'Q2_A2': (
-            'In nisl ligula, porttitor vel lobortis vel, commodo quis mi.'
-            ' Nullam sollicitudin odio ut felis tristique tempus. Cras sagittis'
-            ' auctor nulla 2. Question - ANSWER_2 or ANSWER_4 eget accumsan. '
-            'Nam condimentum lacus non tortor auctor semper.'
-            ''
-            'Suspendisse justo nisi, molestie quis purus sed, dapibus porta '
-            'urna. Praesent leo massa, aliquet blandit eros at, consectetur '
-            'vestibulum elit. Aliquam laoreet ex ex, et dapibus 2. Question -'
-            'ANSWER_2 or ANSWER_4 ligula interdum a. Praesent quis libero arcu.'
-            ' Donec felis libero, tristique et sapien non, feugiat eleifend '
-            'diam.'
-        ),
-        'Q3_A1': (
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed '
-            'sollicitudin leo in 3. Question - ANSWER_4, ANSWER_3 and ANSWER_1'
-            ' lectus cursus tincidunt. Nullam dapibus tincidunt libero nec '
-            'volutpat. '
-            ''
-            'Cras sit amet massa a turpis malesuada ornare vitae '
-            'sed arcu. Maecenas eleifend rutrum augue, eget imperdiet sem '
-            'gravida sed. Vestibulum vel libero consectetur, 3. Question - '
-            'ANSWER_4, ANSWER_3 and ANSWER_1 pellentesque lacus nec, facilisis'
-            ' nisl. Phasellus faucibus lobortis tincidunt. Duis tristique '
-            'congue bibendum.'
-            ''
-            'Morbi semper cursus felis et consequat. Nulla posuere, quam eget'
-            ' pulvinar 3. Question - ANSWER_4, ANSWER_3 and ANSWER_1 dignissim,'
-            ' odio sem euismod leo, at ornare purus massa quis sapien. Aliquam'
-            ' eget libero nec lectus placerat congue. Aenean nec tortor a '
-            'ligula aliquam pharetra. Aenean et magna enim.'
-        ),
-        'Q3_A2': (
-            'orem ipsum dolor sit amet, consectetur adipiscing elit. '
-            'Vestibulum dictum, dui non auctor tristique, odio sem 3. Question'
-            ' - ANSWER_2 and ANSWER_5 convallis lacus, non gravida libero erat'
-            ' id justo. Praesent in varius nisi. Phasellus suscipit elit sit '
-            'amet aliquam tincidunt.'
-            ''
-            'In pellentesque gravida risus, et 3. Question - ANSWER_2 and '
-            'ANSWER_5 rhoncus quam. Vestibulum ac risus nulla. Phasellus '
-            'iaculis interdum pulvinar. Vivamus sit amet sagittis risus. Morbi'
-            ' ut pellentesque sapien.'
-        ),
-        'Q3_A3': (
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras '
-            'viverra luctus nunc, non ultrices mauris molestie vitae. Sed gravida'
-            ' purus finibus 3. Question - ANSWER_4, ANSWER_3 or ANSWER_1 '
-            'efficitur congue. Vestibulum magna urna, volutpat vitae auctor non,'
-            ' pharetra vel leo.Interdum et malesuada fames ac ante ipsum primis'
-            ' in faucibus. Vestibulum elementum sagittis tortor, vel porta leo '
-            'tristique ac. Phasellus ac metus est. 3. Question - ANSWER_4,'
-            ' ANSWER_3 or ANSWER_1 Aenean vel malesuada ex, nec rutrum justo.'
-            ' Sed ultricies venenatis mauris, in pharetra ante vulputate nec. '
-            'Proin viverra convallis augue elementum volutpat.'
-        ),
-        'Q4_A1': (
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-            'Calories: ..... Vivamus hendrerit arcu eros, nec bibendum mi'
-            ' sodales id. Ut auctor nisl a placerat porttitor. Duis at tortor '
-            'posuere, gravida sapien in, fermentum ligula. '
-            ''
-            'Quisque eu ipsum lobortis, hendrerit justo vitae, varius nisi.'
-            'Etiam in leo feugiat purus facilisis tempor.Fusce congue metus '
-            'non massa mollis, id imperdiet ex viverra.Cras Calories:.....'
-            'imperdiet lectus at imperdiet ornare.'
-        ),
-        'Q4_A2': (
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-            'Integer porta at odio ac rhoncus. Calories: ..... Integer viverra'
-            ' porta eros nec ultrices. Nullam ante sem, tincidunt vitae orci '
-            'id, vestibulum auctor risus. Phasellus sit amet lobortis eros. '
-            'Maecenas convallis dolor ex, vel congue ipsum ornare eu. '
-            ''
-            'Nunc in mattis dolor, quis posuere lorem. Calories: ..... Nullam '
-            'condimentum semper diam, lacinia tempor eros tristique ut. Etiam '
-            'ultrices imperdiet tortor at eleifend. Aenean lorem felis, '
-            'volutpat eu euismod at, congue id erat. Duis luctus quam vitae'
-            ' mattis tempus.'
-        )
-    }
+class Survey_Choices:
+    result_text: str = ''
 
-    def survey_result(self, result: str):
-        print(result)
+    def validate_answer_selection_in_dictionary(
+            self, all_survey_answers: Dict) -> bool:
+        for key, answer_choice in all_survey_answers.items():
+            if (
+                    key == 'ENVIRONMENT'
+                    and answer_choice in Dicts_Answer.environment
+            ):
+                return_status: bool = True
+            elif {
+                key == 'AUDIT_TYPES'
+                and answer_choice in Dicts_Answer.audit_type
+            }:
+                return_status: bool = True
 
-    def survey_choice(self, question: Dict) -> str:
-        result_text: str = ''
-
-        for key, answer_choice in question.items():
-            if key == 'ENVIRONMENT':
-                answer_choice: str = answer_choice[0]
-                if answer_choice == 'ETL_LOGS':
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A1']
-                    print(f' For environment Result is --> Q1_A1')
-                elif answer_choice == 'ANAPLAN_LOGS':
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A2']
-                    print(f' For environment Result is --> Q1_A2')
-                elif answer_choice == 'ANAPLAN_DATA':
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A3']
-                    print(f' For environment Result is --> Q1_A2')
-                elif answer_choice == 'SHELL' or answer_choice == 'FILES':
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q1_A4']
-                    print(f' For environment Result is --> Q1_A4')
-            elif key == 'AUDIT_TYPES':
-                answer_choice: str = answer_choice[0]
-                if (
-                        answer_choice == 'SCRIPT_LOGS'
-                        or answer_choice == 'PYTHON_ETL'
-                ):
-                    result_text += Survey_Result.QUES_ANS_PAIR['Q2_A1']
-                    print(f' For environment Result is --> Q2_A1')
-                elif answer_choice == 'BINARY_LOGS' or answer_choice == 'NEW':
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q2_A2']
-                    print(f' For environment Result is --> Q2_A2')
-
-            elif key == 'AUDIT_CRITERIA':
-                print(answer_choice)
-                answer_choice_1, answer_choice_2, answer_choice_3 = \
-                    answer_choice[0], answer_choice[1], answer_choice[2]
-
-                if (
-                        answer_choice_1 == 'CX_TSS_ATR'
-                        or answer_choice_1 == 'SCLASS_INVALID_PARTY'
-                        or answer_choice_1 == 'NLG_PLANNING'
-                ) and (
-                        answer_choice_2 == 'CX_TSS_ATR'
-                        or answer_choice_2 == 'SCLASS_INVALID_PARTY'
-                        or answer_choice_2 == 'NLG_PLANNING'
-                ) and (
-                        answer_choice_3 == 'CX_TSS_ATR'
-                        or answer_choice_3 == 'SCLASS_INVALID_PARTY'
-                        or answer_choice_3 == 'NLG_PLANNING'
-                ):
-                    result_text += Survey_Result.QUES_ANS_PAIR['Q3_A1']
-                    print(f' For AUDIT_CRITERIA Result is --> Q3_A1')
-                elif (
-                        answer_choice_1 == 'NLG_GOALING'
-                        or answer_choice_2 == 'SCLASS_CONTAINER'
-                ):
-                    result_text = Survey_Result.QUES_ANS_PAIR['Q3_A3']
-                    print(f' For AUDIT_CRITERIA Result is --> Q3_A3')
-                elif (
-                        answer_choice_1 == 'CX_TSS_ATR' and
-                        (
-                                answer_choice_2 == 'SCLASS_INVALID_PARTY'
-                                or answer_choice_3 == 'NLG_PLANNING'
-                        )
-                ):
-                    result_text += Survey_Result.QUES_ANS_PAIR['Q3_A2']
-                    print(f' For AUDIT_CRITERIA Result is --> Q3_A2')
-
+            elif (
+                    key == 'AUDIT_CRITERIA'
+                    and answer_choice in Dicts_Answer.audit_criteria
+            ):
+                return_status: bool = True
             elif key == 'SIZE':
-                answer_choice_1, answer_choice_2 = (
-                    answer_choice[0], answer_choice[1]
+                return_status: bool = True
+
+            elif (
+                    key == 'IMPORTANCE'
+                    and answer_choice in Dicts_Answer.importance
+            ):
+                return_status: bool = True
+            else:
+                return_status: bool = False
+        return return_status
+
+    def environment_choice(self, all_survey_answers: Dict) -> str:
+
+        is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
+            all_survey_answers
+        )
+        print(is_valid_answer)
+        if is_valid_answer:
+            answer_choice: str = all_survey_answers['ENVIRONMENT']
+            # for key, answer_choice in all_survey_answers.items():
+            # if key == 'ENVIRONMENT':
+            if answer_choice == 'ETL_LOGS':
+                self.result_text = Survey_Result.QUES_ANS_PAIR['ETL_LOG']
+                print(f'Environment Result is --> ETL_LOG')
+            elif answer_choice == 'ANAPLAN_LOGS':
+                self.result_text = Survey_Result.QUES_ANS_PAIR[
+                    'ANAPLAN_LOG']
+                print(f'Environment Result is --> ANAPLN_LOG')
+            elif answer_choice == 'ANAPLAN_DATA':
+                self.result_text = Survey_Result.QUES_ANS_PAIR[
+                    'ANAPLAN_DATA']
+                print(f'Environment Result is --> ANAPLAN_DATA')
+            elif (
+                    answer_choice == 'SHELL'
+                    or answer_choice == 'FILES'
+            ):
+                self.result_text = Survey_Result.QUES_ANS_PAIR[
+                    'SHELL_OR_FILES']
+                print(f'Environment Result is --> SHELL_OR_FILES')
+        else:
+            self.result_text = ''
+        return self.result_text
+
+    def audittype_choice(self, all_survey_answers: Dict) -> str:
+        is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
+            all_survey_answers
+        )
+        if is_valid_answer:
+            answer_choice: str = all_survey_answers['AUDIT_TYPES']
+            if (
+                    answer_choice == 'SCRIPT_LOGS'
+                    or answer_choice == 'PYTHON_ETL'
+            ):
+                self.result_text += (
+                    Survey_Result.QUES_ANS_PAIR['SHELL_PYTHON_OUTPUT']
                 )
-                answer_choice_1_1: int = int(answer_choice_1)
+                print(f'Audit_Type Result is --> SHELL_PYTHON_OUTPUT')
+            elif answer_choice == 'BINARY_LOGS' or answer_choice == 'NEW':
+                self.result_text += (
+                    Survey_Result.QUES_ANS_PAIR['BINARY_LOG_AND_OTHERS']
+                )
+                print(f'Audit_Type Result is --> BINARY_LOG_AND_OTHERS')
+        else:
+            self.result_text += ' '
 
-                if (
-                        answer_choice_1_1 > 2
-                        and answer_choice_2 == 'GB'
-                ) or (
-                        answer_choice_1_1 > 100
-                        and answer_choice_2 == 'MB'
-                ):
-                    result_text += Survey_Result.QUES_ANS_PAIR['Q4_A1']
-                    print(f' For environment Result is --> Q5_A1')
+        return self.result_text
+
+    def auditcriteria_choice(self, all_survey_answers: Dict) -> str:
+        is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
+            all_survey_answers
+        )
+        if is_valid_answer:
+            # answer_choice = all_survey_answers['AUDIT_CRITERIA']
+            nlg_planning: str = ''
+            nlg_goaling: str = ''
+            sclass_invalid_party: str = ''
+            sclass_container: str = ''
+            cx_tss_atr: str = ''
+            data_hub: str = ''
+            answer_choices: List = all_survey_answers['AUDIT_CRITERIA']
+
+            for answer_choice in answer_choices:
+                if 'NLG_PLANNING' in answer_choice:
+                    nlg_planning: str = 'NLG_PLANNING'
+
+                elif 'NLG_GOALING' in answer_choice:
+                    nlg_goaling: str = 'NLG_GOALING'
+                elif 'SCLASS_INVALID_PARTY' in answer_choice:
+                    sclass_invalid_party: str = 'SCLASS_INVALID_PARTY'
+                elif 'SCLASS_CONTAINER' in answer_choice:
+                    sclass_container: str = 'SCLASS_CONTAINER'
+                elif 'CX_TSS_ATR' in answer_choice:
+                    cx_tss_atr: str = 'CX_TSS_ATR'
+                elif 'DATA_HUB' in answer_choice:
+                    data_hub: str = 'DATA_HUB'
+
+            answer_combination_1: bool = all(
+                [cx_tss_atr, nlg_planning, sclass_invalid_party])
+            answer_combination_2: bool = any(
+                [nlg_goaling, sclass_container])
+            answer_combination_3: bool = all([
+                cx_tss_atr, any([nlg_planning, sclass_invalid_party]
+                                )])
+            answer_combination_4: bool = all(data_hub)
+
+            if answer_combination_1:
+                self.result_text += (
+                    Survey_Result.QUES_ANS_PAIR[
+                        'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                    ]
+                )
+                print(f'AUDIT_CRITERIA Result is --> '
+                      f'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR')
+
+            elif answer_combination_2:
+                self.result_text = (
+                    Survey_Result.QUES_ANS_PAIR[
+                        'NLG_GOALING_AND_SCLASS_CONTAINER'
+                    ]
+                )
+                print(f'AUDIT_CRITERIA Result is -->'
+                      f' NLG_GOALING_AND_SCLASS_CONTAINER2')
+            elif answer_combination_3:
+                self.result_text += (
+                    Survey_Result.QUES_ANS_PAIR[
+                        'CXTSSATR_AND_NLG_PLANNING_OR_SCLASS'
+                    ]
+                )
+                print(f' For AUDIT_CRITERIA Result is --> '
+                      f'CXTSSATR_AND_NLG_PLANNING_OR_SCLASS')
+            elif answer_combination_4:
+                self.result_text += ''
+
+        else:
+            self.result_text += ' '
+
+        return self.result_text
+
+    def filesize_choice(self, all_survey_answers: Dict) -> str:
+        is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
+            all_survey_answers
+        )
+        print(all_survey_answers)
+        if is_valid_answer:
+            answer_choice_1, answer_choice_2 = (
+                all_survey_answers['SIZE'], all_survey_answers['UNIT']
+            )
+            answer_choice_1_1: int = int(answer_choice_1)
+
+            if (
+                    answer_choice_1_1 > 2
+                    and answer_choice_2 == 'GB'
+            ) or (
+                    answer_choice_1_1 > 100
+                    and answer_choice_2 == 'MB'
+            ):
+                self.result_text += Survey_Result.QUES_ANS_PAIR[
+                    'LARGE_SIZE_FILE']
+                print(f' For filesize Result is --> LARGE_SIZE_FILE')
+            elif (
+                    answer_choice_1_1 < 2
+                    and answer_choice_2 == 'GB'
+            ) or (
+                    answer_choice_1_1 < 50
+                    and answer_choice_2 == 'MB'
+            ):
+                self.result_text += Survey_Result.QUES_ANS_PAIR[
+                    'SMALL_SIZE_FILE']
+            print(f' For filesize Result is --> SMALL_SIZE_FILE')
+
+        else:
+            self.result_text += ' '
+
+        return self.result_text
+
+    def importance_choice(self, all_survey_answers: Dict) -> str:
+        is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
+            all_survey_answers
+        )
+
+        if is_valid_answer:
+            answer_choice_dict: Dict = all_survey_answers['IMPORTANCE']
+            for key, list_of_choice in answer_choice_dict:
+                print(key)
+                print(list_of_choice)
+                if key == 'LOW':
+                    pass
+                elif key == 'MEDIUM':
+                    pass
+                elif key == 'HIGH':
+                    if (
+                            'Recovery' in list_of_choice and
+                            'Analysis' in list_of_choice
+                    ):
+                        self.result_text += (
+                            Survey_Result.QUES_ANS_PAIR[
+                                'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                            ]
+                        )
+                        print(f'AUDIT_CRITERIA Result is --> '
+                              f'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR')
                 elif (
-                        answer_choice_1_1 < 2
-                        and answer_choice_2 == 'GB'
-                ) or (
-                        answer_choice_1_1 < 50
-                        and answer_choice_2 == 'MB'
+                        'Data Quality' in list_of_choice and
+                        'Data Dependency' in list_of_choice
                 ):
-                    result_text += Survey_Result.QUES_ANS_PAIR['Q4_A2']
-                    print(f' For environment Result is --> Q4_A2')
+                    self.result_text += (
+                        Survey_Result.QUES_ANS_PAIR[
+                            'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                        ]
+                    )
+                    print(f'AUDIT_CRITERIA Result is --> '
+                          f'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR')
+                else:
+                    self.result_text += (
+                        Survey_Result.QUES_ANS_PAIR[
+                            'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                        ]
+                    )
 
-        return result_text
+        return self.result_text
 
 
 surveyQuestion = Question()
-answerEnvironment = Answers_Environment()
-HTML_SURVEY: Dict = {}
-# print(surveyQuestion.Question_types.items())
-for key, question in surveyQuestion.Question_types.items():
-    # print(question)
-    # print(surveyQuestion.Question_types[key])
-    if key == 'ENVIRONMENT':
-        qans: List = ['ETL_LOGS']
-    elif key == 'AUDIT_TYPES':
-        qans: List = ['SCRIPT_LOGS']
-    elif key == 'AUDIT_CRITERIA':
-        qans: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY',
-                      'NLG_PLANNING']
-    elif key == 'SIZE':
-        qans: List = [3, 'GB']
-    else:
-        qans: str = 'No selection'
-    HTML_SURVEY[key] = qans
+# answerEnvironment = Answers_Environment()
+allAnswers = Dicts_Answer()
+# HTML_SURVEY: Dict = {}
 
-print(HTML_SURVEY)
-surveyresult = Survey_Result()
-report_result: str = surveyresult.survey_choice(question=HTML_SURVEY)
-print(report_result)
+Q1_ANSW: str = 'ETL_LOGS'
+Q2_ANSW: str = 'SCRIPT_LOGS'
+Q3_ANSW: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY', 'NLG_PLANNING']
+# Q3_ANSW: List = (
+#     ['NLG_PLANNING', '', 'SCLASS_INVALID_PARTY', 'CX_TSS_ATR', '', '']
+# )
+Q4_ANSW: Dict = {
+    'SIZE': 4,
+    'UNIT': 'GB'
+}
+
+Q5_ANSW: Dict = {
+    'High': ['Data Quality', 'Recovery', 'Analysis']
+}
+#
+# HTML_SURVEY: Dict = {
+#     'ENVIRONMENT': Q1_ANSW,
+#     'AUDIT_TYPES': Q2_ANSW,
+#     'AUDIT_CRITERIA': Q3_ANSW,
+#     'SIZE': Q4_ANSW,
+#     'IMPORTANCE': Q5_ANSW
+# }
+
+surveyresult = Survey_Choices()
+# report_result: str = surveyresult.survey_choice(all_survey_answers=HTML_SURVEY)
+HTML_SURVEY: Dict = {'ENVIRONMENT': Q1_ANSW, }
+surveyresult.environment_choice(all_survey_answers=HTML_SURVEY)
+HTML_SURVEY: Dict = {'AUDIT_TYPES': Q2_ANSW}
+surveyresult.audittype_choice(all_survey_answers=HTML_SURVEY)
+HTML_SURVEY: Dict = {'AUDIT_CRITERIA': Q3_ANSW}
+surveyresult.auditcriteria_choice(all_survey_answers=HTML_SURVEY)
+HTML_SURVEY: Dict = {'SIZE': Q4_ANSW}
+surveyresult.filesize_choice(all_survey_answers=Q4_ANSW)
+HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
+surveyresult.importance_choice(all_survey_answers=Q5_ANSW)
+
+# HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
+# report_result: str = surveyresult.environment_choice(
+#     all_survey_answers=HTML_SURVEY)
+
+# survey_result()
+print_result: str = surveyresult.result_text
+
+surveyresult.survey_result(result=print_result)
