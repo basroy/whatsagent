@@ -190,5 +190,54 @@ class Survey_Result:
             'ultrices imperdiet tortor at eleifend. Aenean lorem felis, '
             'volutpat eu euismod at, congue id erat. Duis luctus quam vitae'
             ' mattis tempus.'
+        ),
+        'HIGH_IMPORTANCE_SEL_1': (
+            'Mauris viverra lobortis ante, eget faucibus felis pulvinar et. '
+            'Suspendisse urna diam, ANSWER_YES and ANSWER_YES_CHOICE_2, '
+            'ANSWER_YES_CHOICE_3 elementum nec tincidunt ornare, convallis '
+            'condimentum nisi.'
+            ''
+            'Nam gravida ac magna eget cursus. ANSWER_YES and '
+            'ANSWER_YES_CHOICE_2, ANSWER_YES_CHOICE_3 Maecenas fermentum '
+            'lacus eu tempor condimentum. Quisque tristique viverra justo,et'
+            ' mollis magna ornare a. In lacus elit, vestibulum a ex facilisis,'
+            ' faucibus gravida dui. Morbi consectetur egestas tempor. Sed '
+            'neque ex, condimentum congue facilisis non,aliquet sed odio.'
+        ),
+        'HIGH_IMPORTANCE_SEL_2': (
+            'Fusce sem est, maximus ac efficitur in, accumsan eu libero. '
+            'Praesent facilisis, augue at pretium malesuada, ANSWER_YES '
+            'and ANSWER_YES_CHOICE_1, ANSWER_YES_CHOICE_4 erat eros eleifend '
+            'velit, at iaculis nunc nisi nec odio. Ut consequat ac metus a '
+            'bibendum. Donec venenatis euismod eros ac dignissim. Donec dictum'
+            ' odio a augue tincidunt interdum.'
+        ),
+        'MEDIUM_IMPORTANCE': (
+            'Phasellus ac sem ornare, ANSWER_I_DONT_KNOW euismod tellus id, '
+            'sagittis felis. Nullam viverra est nibh, et dignissim elit '
+            'tincidunt nec. Integer vel dolor aliquam, eleifend metus in, '
+            'tincidunt erat. Nam id facilisis tortor. '
+            ''
+            'Donec malesuada, libero nec tincidunt ANSWER_I_DONT_KNOW commodo,'
+            ' nulla velit imperdiet mauris, sit amet cursus dui quam maximus '
+            'justo. In accumsan nisi ut orci finibus ullamcorper. Aliquam '
+            'consequat risus non orci dapibus, id commodo erat egestas. '
+        ),
+        'LOW_IMPORTANCE': (
+            'Nam maximus et massa laoreet congue. In facilisis egestas neque. '
+            'Nullam ac euismod nibh. ANSWER_NO Aenean pulvinar lacinia ligula,'
+            ' nec lobortis magna accumsan sed. '
+            ''
+            'Duis tempor pellentesque quam. ANSWER_NO Sed non est dui. Sed '
+            'commodo odio vel augue pellentesque, et sagittis dolor tristique.'
+            ' Phasellus mollis magna eu egestas viverra. Cras elementum erat '
+            'vel libero venenatis, ut suscipit nibh scelerisque.'
+        ),
+        'NONE_IMPORTANCE': (
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+            'Pellentesque sed scelerisque nulla, at mattis mauris. Vestibulum'
+            ' dignissim viverra nulla quis tempus. (Any other case) Donec '
+            'finibus nisl sapien, sed auctor elit sodales ac. Nulla dictum '
+            'ante ante, eget maximus mi efficitur nec.'
         )
     }

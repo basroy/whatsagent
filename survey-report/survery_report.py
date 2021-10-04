@@ -128,9 +128,9 @@ class Survey_Choices:
         )
         print(is_valid_answer)
         if is_valid_answer:
+            self.result_text += '\n'
             answer_choice: str = all_survey_answers['ENVIRONMENT']
-            # for key, answer_choice in all_survey_answers.items():
-            # if key == 'ENVIRONMENT':
+
             if answer_choice == 'ETL_LOGS':
                 self.result_text = Survey_Result.QUES_ANS_PAIR['ETL_LOG']
                 print(f'Environment Result is --> ETL_LOG')
@@ -158,6 +158,7 @@ class Survey_Choices:
             all_survey_answers
         )
         if is_valid_answer:
+            self.result_text += '\n'
             answer_choice: str = all_survey_answers['AUDIT_TYPES']
             if (
                     answer_choice == 'SCRIPT_LOGS'
@@ -182,6 +183,7 @@ class Survey_Choices:
             all_survey_answers
         )
         if is_valid_answer:
+            self.result_text += '\n'
             # answer_choice = all_survey_answers['AUDIT_CRITERIA']
             nlg_planning: str = ''
             nlg_goaling: str = ''
@@ -254,6 +256,7 @@ class Survey_Choices:
         )
         print(all_survey_answers)
         if is_valid_answer:
+            self.result_text += '\n'
             answer_choice_1, answer_choice_2 = (
                 all_survey_answers['SIZE'], all_survey_answers['UNIT']
             )
@@ -289,16 +292,27 @@ class Survey_Choices:
         is_valid_answer: bool = self.validate_answer_selection_in_dictionary(
             all_survey_answers
         )
-
         if is_valid_answer:
+            self.result_text += '\n'
             answer_choice_dict: Dict = all_survey_answers['IMPORTANCE']
-            for key, list_of_choice in answer_choice_dict:
+            key1, list_of_choice1 = answer_choice_dict.keys(), \
+                                    answer_choice_dict.values()
+            print(f' Bash {key1} and {list_of_choice1}')
+            for key, list_of_choice in answer_choice_dict.items():
                 print(key)
                 print(list_of_choice)
                 if key == 'LOW':
-                    pass
+                    self.result_text += (
+                        Survey_Result.QUES_ANS_PAIR[
+                            'LOW_IMPORTANCE'
+                        ]
+                    )
                 elif key == 'MEDIUM':
-                    pass
+                    self.result_text += (
+                        Survey_Result.QUES_ANS_PAIR[
+                            'MEDIUM_IMPORTANCE'
+                        ]
+                    )
                 elif key == 'HIGH':
                     if (
                             'Recovery' in list_of_choice and
@@ -306,26 +320,26 @@ class Survey_Choices:
                     ):
                         self.result_text += (
                             Survey_Result.QUES_ANS_PAIR[
-                                'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                                'HIGH_IMPORTANCE_SEL_1'
                             ]
                         )
-                        print(f'AUDIT_CRITERIA Result is --> '
-                              f'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR')
+                        print(f'IMPORTANCE Result is --> '
+                              f'HIGH_IMPORTANCE_SEL_1')
                 elif (
                         'Data Quality' in list_of_choice and
                         'Data Dependency' in list_of_choice
                 ):
                     self.result_text += (
                         Survey_Result.QUES_ANS_PAIR[
-                            'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                            'HIGH_IMPORTANCE_SEL_2'
                         ]
                     )
-                    print(f'AUDIT_CRITERIA Result is --> '
-                          f'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR')
+                    print(f'IMPORTANCE Result is --> '
+                          f'HIGH_IMPORTANCE_SEL_1')
                 else:
                     self.result_text += (
                         Survey_Result.QUES_ANS_PAIR[
-                            'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR'
+                            'NONE_IMPORTANCE'
                         ]
                     )
 
@@ -349,7 +363,7 @@ Q4_ANSW: Dict = {
 }
 
 Q5_ANSW: Dict = {
-    'High': ['Data Quality', 'Recovery', 'Analysis']
+    'HIGH': ['Data Quality', 'Recovery', 'Analysis']
 }
 #
 # HTML_SURVEY: Dict = {
@@ -368,10 +382,12 @@ HTML_SURVEY: Dict = {'AUDIT_TYPES': Q2_ANSW}
 surveyresult.audittype_choice(all_survey_answers=HTML_SURVEY)
 HTML_SURVEY: Dict = {'AUDIT_CRITERIA': Q3_ANSW}
 surveyresult.auditcriteria_choice(all_survey_answers=HTML_SURVEY)
-HTML_SURVEY: Dict = {'SIZE': Q4_ANSW}
+# HTML_SURVEY: Dict = {'SIZE': Q4_ANSW}
 surveyresult.filesize_choice(all_survey_answers=Q4_ANSW)
+
 HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
-surveyresult.importance_choice(all_survey_answers=Q5_ANSW)
+# print(HTML_SURVEY)
+surveyresult.importance_choice(all_survey_answers=HTML_SURVEY)
 
 # HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
 # report_result: str = surveyresult.environment_choice(
@@ -379,5 +395,5 @@ surveyresult.importance_choice(all_survey_answers=Q5_ANSW)
 
 # survey_result()
 print_result: str = surveyresult.result_text
-
-surveyresult.survey_result(result=print_result)
+print(f' After the complete survery, the results are ----> \n {print_result}')
+# surveyresult.survey_result(result=print_result)
