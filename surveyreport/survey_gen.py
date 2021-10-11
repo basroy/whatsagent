@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from .survey_text import SurveyResult
+from survey_text import SurveyResult
 
 
 class Question:
@@ -23,16 +23,17 @@ class Question:
 
 class SurveyChoices:
 
-    def __init__(self, result_text: str, all_survey_answers: Dict):
+    def __init__(self, result_text, all_survey_answers):
         self.result_text = result_text
         self.all_survey_answers = all_survey_answers
+        print(self.all_survey_answers)
 
     # def environment_to_use_audit(self, all_survey_answers: Dict):
     def environment_to_use_audit(self):
 
         self.result_text += '\n'
         answer_choice: str = self.all_survey_answers['ENVIRONMENT']
-
+        print(answer_choice)
         if answer_choice == 'ETL_LOGS':
             self.result_text = SurveyResult.QUES_ANS_PAIR['ETL_LOG']
             print(f'Environment Result is --> ETL_LOG')
@@ -245,58 +246,106 @@ class SurveyChoices:
 
         # return self.result_text
 
+    def all_survey(self) -> List:
+        return [
+            self.environment_to_use_audit(),
+            self.audit_type(),
+            self.audit_anaplan_models(),
+            self.filesize(),
+            self.audit_importance()
+        ]
 
-surveyQuestion = Question()
-# answerEnvironment = Answers_Environment()
-# allAnswers = Answer()
+
+class Report:
+    def __init__(self, result_text):
+        pass
+
+
+class HtmlSurvey:
+    def __init__(self, HTML_SURVEY):
+        self.HTML_SURVEY = HTML_SURVEY
+
+    # HTML_SURVEY: Dict = {}
+
+    def constructed_survey(self) -> Dict:
+        Q1_ANSW: str = 'ETL_LOGS'
+        Q2_ANSW: str = 'SCRIPT_LOGS'
+        Q3_ANSW: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY', 'NLG_PLANNING']
+        Q4_ANSW: Dict = {
+            'SIZE': 4,
+            'UNIT': 'GB'
+        }
+        Q5_ANSW: Dict = {
+            'HIGH': ['Data Quality', 'Recovery', 'Analysis']
+        }
+
+        self.HTML_SURVEY: Dict = {
+            'ENVIRONMENT': Q1_ANSW,
+            'AUDIT_TYPES': Q2_ANSW,
+            'AUDIT_CRITERIA': Q3_ANSW,
+            'FSIZE': Q4_ANSW,
+            'IMPORTANCE': Q5_ANSW
+        }
+        return self.HTML_SURVEY
+
+
 HTML_SURVEY: Dict = {}
+htmlsurvey = HtmlSurvey(HTML_SURVEY=HTML_SURVEY)
+HTML_SURVEY = htmlsurvey.constructed_survey()
+surveyresult = SurveyChoices(result_text='',
+                             all_survey_answers=HTML_SURVEY)
+print_resultt: List = surveyresult.all_survey()
+print(
+    f' After the complete survey, the results are ----> \n {print_resultt}')
 
-Q1_ANSW: str = 'ETL_LOGS'
-Q2_ANSW: str = 'SCRIPT_LOGS'
-Q3_ANSW: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY', 'NLG_PLANNING']
-# Q3_ANSW: List = (
-#     ['NLG_PLANNING', '', 'SCLASS_INVALID_PARTY', 'CX_TSS_ATR', '', '']
-# )
-Q4_ANSW: Dict = {
-    'SIZE': 4,
-    'UNIT': 'GB'
-}
+# surveyQuestion = Question()
+# HTML_SURVEY: Dict = {}
+#
+# Q1_ANSW: str = 'ETL_LOGS'
+# Q2_ANSW: str = 'SCRIPT_LOGS'
+# Q3_ANSW: List = ['CX_TSS_ATR', 'SCLASS_INVALID_PARTY', 'NLG_PLANNING']
+# Q4_ANSW: Dict = {
+#     'SIZE': 4,
+#     'UNIT': 'GB'
+# }
+# Q5_ANSW: Dict = {
+#     'HIGH': ['Data Quality', 'Recovery', 'Analysis']
+# }
+#
+# HTML_SURVEY: Dict = {
+#     'ENVIRONMENT': Q1_ANSW,
+#     'AUDIT_TYPES': Q2_ANSW,
+#     'AUDIT_CRITERIA': Q3_ANSW,
+#     'FSIZE': Q4_ANSW,
+#     'IMPORTANCE': Q5_ANSW
+# }
+#
+# surveyresult = SurveyChoices(result_text='',
+#                              all_survey_answers=HTML_SURVEY)
+# surveyresult.environment_to_use_audit()
+# surveyresult.audit_type()
+# surveyresult.audit_anaplan_models()
+# surveyresult.filesize()
+# surveyresult.audit_importance()
+# print_result: str = surveyresult.result_text
+# print(
+#     f' After the complete survery, the results are ----> \n {print_result}')
 
-Q5_ANSW: Dict = {
-    'HIGH': ['Data Quality', 'Recovery', 'Analysis']
-}
 
-HTML_SURVEY: Dict = {
-    'ENVIRONMENT': Q1_ANSW,
-    'AUDIT_TYPES': Q2_ANSW,
-    'AUDIT_CRITERIA': Q3_ANSW,
-    'FSIZE': Q4_ANSW,
-    'IMPORTANCE': Q5_ANSW
-}
-
-surveyresult = SurveyChoices(result_text='', all_survey_answers=HTML_SURVEY)
 # report_result: str = surveyresult.survey_choice(all_survey_answers=HTML_SURVEY)
 # HTML_SURVEY: Dict = {'ENVIRONMENT': Q1_ANSW, }
-surveyresult.environment_to_use_audit()
 # surveyresult.environment_to_use_audit(all_survey_answers=HTML_SURVEY)
 # HTML_SURVEY: Dict = {'AUDIT_TYPES': Q2_ANSW}
 # surveyresult.audit_type(all_survey_answers=HTML_SURVEY)
-surveyresult.audit_type()
 # HTML_SURVEY: Dict = {'AUDIT_CRITERIA': Q3_ANSW}
 # surveyresult.audit_anaplan_models(all_survey_answers=HTML_SURVEY)
-surveyresult.audit_anaplan_models()
 # HTML_SURVEY: Dict = {'SIZE': Q4_ANSW}
 # surveyresult.filesize(all_survey_answers=Q4_ANSW)
-surveyresult.filesize()
 
 # HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
 # print(HTML_SURVEY)
 # surveyresult.audit_importance(all_survey_answers=HTML_SURVEY)
-surveyresult.audit_importance()
 
 # HTML_SURVEY: Dict = {'IMPORTANCE': Q5_ANSW}
 # report_result: str = surveyresult.environment_choice(
 #     all_survey_answers=HTML_SURVEY)
-
-print_result: str = surveyresult.result_text
-print(f' After the complete survery, the results are ----> \n {print_result}')
