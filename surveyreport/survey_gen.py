@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from lorem_text import SurveyResult
+from .survey_text import SurveyResult
 
 
 class Question:
