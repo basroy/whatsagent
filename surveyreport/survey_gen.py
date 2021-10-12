@@ -134,31 +134,39 @@ class SurveyChoices:
 
     def filesize(self):
         self.result_text += '\n'
-        size_mb_gb: int = self.answer['FSIZE']['SIZE']
-        mb_or_gb: int = self.answer['FSIZE']['UNIT']
 
-        if (
-            size_mb_gb > 2
-            and mb_or_gb == 'GB'
-        ) or (
-            size_mb_gb > 100
-            and mb_or_gb == 'MB'
-        ):
-            self.result_text += SurveyResult.QUES_ANS_PAIR[
-                'LARGE_SIZE_FILE']
+        surveysizetext = SurveyResult()
 
-        elif (
-            size_mb_gb < 2
-            and mb_or_gb == 'GB'
-        ) or (
-            size_mb_gb < 50
-            and mb_or_gb == 'MB'
-        ):
-            self.result_text += SurveyResult.QUES_ANS_PAIR[
-                'SMALL_SIZE_FILE']
+        if self.answer['FSIZE']['UNIT'] == 'GB':
+            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'] * 1024, 2)
 
         else:
-            self.result_text += ' '
+            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'], 2)
+
+        if (
+            self.answer['FSIZE']['SIZE'] > 2
+            and self.answer['FSIZE']['UNIT'] == 'GB'
+        ) or (
+            self.answer['FSIZE']['SIZE'] > 100
+            and self.answer['FSIZE']['UNIT'] == 'MB'
+        ):
+            self.result_text += surveysizetext.large_size_in_megabytes(
+                gb_size=gb_to_mb
+            )
+
+        elif (
+            self.answer['FSIZE']['SIZE'] < 2
+            and self.answer['FSIZE']['UNIT'] == 'GB'
+        ) or (
+            self.answer['FSIZE']['SIZE'] < 50
+            and self.answer['FSIZE']['UNIT'] == 'MB'
+        ):
+            self.result_text += surveysizetext.small_size_in_megabytes(
+                gb_size=gb_to_mb
+            )
+
+        else:
+            self.result_text += ' Filesize is too large to handle '
 
     def audit_importance(self):
         self.result_text += '\n'

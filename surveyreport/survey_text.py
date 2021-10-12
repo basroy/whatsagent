@@ -63,7 +63,7 @@ class SurveyResult:
             'vehicula nec eu velit. Curabitur luctus et nibh et ornare. '
             'Suspendisse non mattis lacus. Cras vitae mi ornare, euismod velit'
             ' sit amet, iaculis tortor. In tempor purus sapien.'
-            '\n'
+            ''
             'Donec tincidunt 1. Question - ANSWER_1 metus nec dui tristique'
             'malesuada.Praesent lectus nunc, accumsan vel justo in, imperdiet'
             'faucibus leo.Nullam efficitur massa nec turpis tincidunt, feugiat'
@@ -252,3 +252,37 @@ class SurveyResult:
             'ante ante, eget maximus mi efficitur nec.'
         )
     }
+
+    def small_size_in_megabytes(self, gb_size) -> str:
+        return (
+            f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+            f'Integer porta at odio ac rhoncus. Filesize: {gb_size} Integer '
+            f'viverra'
+            f' porta eros nec ultrices. Nullam ante sem, tincidunt vitae orci '
+            f'id, vestibulum auctor risus. Phasellus sit amet lobortis eros. '
+            f'Maecenas convallis dolor ex, vel congue ipsum ornare eu. '
+            f''
+            f'Nunc in mattis dolor, quis posuere lorem. Filesize: {gb_size} '
+            f'Nullam '
+            f'condimentum semper diam, lacinia tempor eros tristique ut. '
+            f'Etiam '
+            f'ultrices imperdiet tortor at eleifend. Aenean lorem felis, '
+            f'volutpat eu euismod at, congue id erat. Duis luctus quam vitae'
+            f' mattis tempus.'
+
+        )
+
+    def large_size_in_megabytes(self, gb_size) -> str:
+        return (
+            f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+            f'FileSize:{gb_size} Vivamus hendrerit arcu eros, nec bibendum mi'
+            f' sodales id. Ut auctor nisl a placerat porttitor. Duis at '
+            f'tortor '
+            f'posuere, gravida sapien in, fermentum ligula. '
+            f''
+            f'Quisque eu ipsum lobortis, hendrerit justo vitae, varius nisi.'
+            f'Etiam in leo feugiat purus facilisis tempor.Fusce congue metus '
+            f'non massa mollis, id imperdiet ex viverra.Cras '
+            f'FileSize: {gb_size}'
+            f' imperdiet lectus at imperdiet ornare.'
+        )
