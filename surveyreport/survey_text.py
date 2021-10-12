@@ -35,13 +35,13 @@ class Answer:
 
     audit_criteria: Dict = {
         'NLG_PLANNING': 'Q1 and Q2 Final Goals of specific PEC and L2 Node',
-        'NLG_GOALING': (
-            'Q1 and Q2 Final Goals of specific PEC and Node at any level'
-        ),
         'SCLASS_INVALID_PARTY': (
             'Count of Invalid Parties compared to Booked Parties'
         ),
-        'CX_TSS_ATR': 'Q1 and Q2 Annualized for Current_Year.',
+        'NLG_GOALING': (
+            'Q1 and Q2 Final Goals of specific PEC and Node at any level'
+        ),
+        'NLG_CX_TSS_ATR': 'Q1 and Q2 Annualized for Current_Year.',
         'SCLASS_CONTAINER': 'The Container refresh on a daily schedule',
         'DATA_HUB': 'SHARE and SAVM refreshed on daily schedule'
     }
@@ -50,7 +50,8 @@ class Answer:
         'HIGH': 'Must not skip any day.',
         'MEDIUM': 'The data gets refreshed on next cycle.',
         'LOW': 'Good to have audits',
-        'IF HIGH': 'Frequency, daily, weekly, hourly......'
+        'HIGH_choices':
+            ['Data Dependency', 'Data Quality', 'Analysis', 'Recovery']
     }
 
 
@@ -124,7 +125,7 @@ class SurveyResult:
             ' Donec felis libero, tristique et sapien non, feugiat eleifend '
             'diam.'
         ),
-        'NLG_PLANNING_AND_SCLASS_AND_CXTSSATR': (
+        'NLG_PLANNING_AND_GOALING_AND_CXTSSATR': (
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed '
             'sollicitudin leo in 3. Question - ANSWER_4, ANSWER_3 and ANSWER_1'
             ' lectus cursus tincidunt. Nullam dapibus tincidunt libero nec '
@@ -143,7 +144,7 @@ class SurveyResult:
             ' eget libero nec lectus placerat congue. Aenean nec tortor a '
             'ligula aliquam pharetra. Aenean et magna enim.'
         ),
-        'CXTSSATR_AND_NLG_PLANNING_OR_SCLASS': (
+        'SCLASS_PPARTY_or_SCLASS_CONTAINER_AND_DATAHUB': (
             'orem ipsum dolor sit amet, consectetur adipiscing elit. '
             'Vestibulum dictum, dui non auctor tristique, odio sem 3. Question'
             ' - ANSWER_2 and ANSWER_5 convallis lacus, non gravida libero erat'
@@ -155,17 +156,27 @@ class SurveyResult:
             'iaculis interdum pulvinar. Vivamus sit amet sagittis risus. Morbi'
             ' ut pellentesque sapien.'
         ),
-        'NLG_GOALING_OR_SCLASS_CONTAINER2': (
+        'SCLASS_PARTY_AND_SCLASS_CONTAINER': (
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras '
-            'viverra luctus nunc, non ultrices mauris molestie vitae. Sed gravida'
-            ' purus finibus 3. Question - ANSWER_4, ANSWER_3 or ANSWER_1 '
-            'efficitur congue. Vestibulum magna urna, volutpat vitae auctor non,'
-            ' pharetra vel leo.Interdum et malesuada fames ac ante ipsum primis'
-            ' in faucibus. Vestibulum elementum sagittis tortor, vel porta leo '
-            'tristique ac. Phasellus ac metus est. 3. Question - ANSWER_4,'
-            ' ANSWER_3 or ANSWER_1 Aenean vel malesuada ex, nec rutrum justo.'
-            ' Sed ultricies venenatis mauris, in pharetra ante vulputate nec. '
-            'Proin viverra convallis augue elementum volutpat.'
+            'viverra luctus nunc, non ultrices mauris molestie vitae. Sed '
+            '4gravida purus finibus 3. Question - ANSWER_4, ANSWER_3 or '
+            'ANSWER_1 efficitur congue. Vestibulum magna urna, volutpat vitae'
+            ' auctor non,pharetra vel leo.Interdum et malesuada fames ac ante'
+            ' ipsum primis in faucibus. Vestibulum elementum sagittis tortor,'
+            ' vel porta leo tristique ac. Phasellus ac metus est. '
+            '3. Question - ANSWER_4, ANSWER_3 or ANSWER_1 Aenean vel malesuada'
+            ' ex, nec rutrum justo. Sed ultricies venenatis mauris, in'
+            ' pharetra ante vulputate nec.Proin viverra convallis augue'
+            ' elementum volutpat.'
+        ),
+        'DATAHUB': (
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras '
+            'viverra luctus nunc, non ultrices mauris molestie vitae. Sed '
+            'gravida purus finibus 3. Question - ANSWER_6 '
+            'efficitur congue. Vestibulum magna urna, volutpat vitae auctor'
+            ' non,pharetra vel leo.Interdum et malesuada fames ac ante ipsum '
+            'primis in faucibus. Vestibulum elementum sagittis tortor, vel '
+            'porta leo '
         ),
         'LARGE_SIZE_FILE': (
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
@@ -191,7 +202,7 @@ class SurveyResult:
             'volutpat eu euismod at, congue id erat. Duis luctus quam vitae'
             ' mattis tempus.'
         ),
-        'HIGH_IMPORTANCE_SEL_1': (
+        'HIGH_IMPORTANCE_RECOVERY_AND_ANALYSIS': (
             'Mauris viverra lobortis ante, eget faucibus felis pulvinar et. '
             'Suspendisse urna diam, ANSWER_YES and ANSWER_YES_CHOICE_2, '
             'ANSWER_YES_CHOICE_3 elementum nec tincidunt ornare, convallis '
@@ -204,7 +215,7 @@ class SurveyResult:
             ' faucibus gravida dui. Morbi consectetur egestas tempor. Sed '
             'neque ex, condimentum congue facilisis non,aliquet sed odio.'
         ),
-        'HIGH_IMPORTANCE_SEL_2': (
+        'HIGH_IMPORTANCE_DATA_QUALITY_AND_DEPENDENCY': (
             'Fusce sem est, maximus ac efficitur in, accumsan eu libero. '
             'Praesent facilisis, augue at pretium malesuada, ANSWER_YES '
             'and ANSWER_YES_CHOICE_1, ANSWER_YES_CHOICE_4 erat eros eleifend '
