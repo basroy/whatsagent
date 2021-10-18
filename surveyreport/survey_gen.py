@@ -1,11 +1,10 @@
 from typing import Dict, List
 
-# from whatsagent.surveyreport.survey_text import SurveyResult
 from surveyreport.survey_text import SurveyResult
 
 
 class Question:
-    Question_types: Dict = {
+    types: Dict = {
         'ENVIRONMENT': (
             'Is the auditing for real-time streaming data, batch procesing, '
             'or data auditing?'
@@ -27,31 +26,29 @@ class SurveyChoices:
     def __init__(self, answer):
         self.result_text = ''
         self.answer = answer
+        self.text = SurveyResult()
 
     def environment_to_use_audit(self):
 
         self.result_text += '\n'
 
         if self.answer['ENVIRONMENT'] == 'ETL_LOGS':
-            self.result_text = SurveyResult.QUES_ANS_PAIR['ETL_LOG']
+            self.result_text = self.text.answers['ETL_LOGS']
 
         elif self.answer['ENVIRONMENT'] == 'ANAPLAN_LOGS':
-            self.result_text = SurveyResult.QUES_ANS_PAIR[
+            self.result_text = self.text.answers[
                 'ANAPLAN_LOG']
 
         elif self.answer['ENVIRONMENT'] == 'ANAPLAN_DATA':
-            self.result_text = SurveyResult.QUES_ANS_PAIR[
+            self.result_text = self.text.answers[
                 'ANAPLAN_DATA']
 
         elif (
             self.answer['ENVIRONMENT'] == 'SHELL'
             or self.answer['ENVIRONMENT'] == 'FILES'
         ):
-            self.result_text = SurveyResult.QUES_ANS_PAIR[
+            self.result_text = self.text.answers[
                 'SHELL_OR_FILES']
-
-        else:
-            self.result_text = ''
 
     def audit_type(self):
         self.result_text += '\n'
@@ -61,7 +58,7 @@ class SurveyChoices:
             or self.answer['AUDIT_TYPES'] == 'PYTHON_ETL'
         ):
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR['SHELL_PYTHON_OUTPUT']
+                self.text.answers['SHELL_PYTHON_OUTPUT']
             )
 
         elif (
@@ -69,11 +66,8 @@ class SurveyChoices:
             or self.answer['AUDIT_TYPES'] == 'NEW'
         ):
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR['BINARY_LOG_AND_OTHERS']
+                self.text.answers['BINARY_LOG_AND_OTHERS']
             )
-
-        else:
-            self.result_text += ' '
 
     def audit_anaplan_models(self):
 
@@ -107,35 +101,29 @@ class SurveyChoices:
 
         if NLG_selection:
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR[
+                self.text.answers[
                     'NLG_PLANNING_AND_GOALING_AND_CXTSSATR'
                 ]
             )
 
         elif SCLASS_selection:
             self.result_text = (
-                SurveyResult.QUES_ANS_PAIR[
+                self.text.answers[
                     'SCLASS_PARTY_AND_SCLASS_CONTAINER'
                 ]
             )
         elif SCLASS_and_DATAHUB:
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR[
+                self.text.answers[
                     'SCLASS_PPARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
                 ]
             )
 
         elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
-            self.result_text += SurveyResult.QUES_ANS_PAIR['DATAHUB']
-        else:
-            self.result_text += ''
-
-            # def filesize(self, all_survey_answers: Dict):
+            self.result_text += self.text.answers['DATAHUB']
 
     def filesize(self):
         self.result_text += '\n'
-
-        surveysizetext = SurveyResult()
 
         if self.answer['FSIZE']['UNIT'] == 'GB':
             gb_to_mb: float = round(self.answer['FSIZE']['SIZE'] * 1024, 2)
@@ -150,7 +138,7 @@ class SurveyChoices:
             self.answer['FSIZE']['SIZE'] > 100
             and self.answer['FSIZE']['UNIT'] == 'MB'
         ):
-            self.result_text += surveysizetext.large_size_in_megabytes(
+            self.result_text += self.text.large_size_in_megabytes(
                 gb_size=gb_to_mb
             )
 
@@ -161,7 +149,7 @@ class SurveyChoices:
             self.answer['FSIZE']['SIZE'] < 50
             and self.answer['FSIZE']['UNIT'] == 'MB'
         ):
-            self.result_text += surveysizetext.small_size_in_megabytes(
+            self.result_text += self.text.small_size_in_megabytes(
                 gb_size=gb_to_mb
             )
 
@@ -171,44 +159,45 @@ class SurveyChoices:
     def audit_importance(self):
         self.result_text += '\n'
 
+        print(list(self.answer['IMPORTANCE'].keys()))
         if 'HIGH' in list(self.answer['IMPORTANCE'].keys()):
             print(list(self.answer['IMPORTANCE']['HIGH']))
-            if (
-                'Recovery' in self.answer['IMPORTANCE']['HIGH'] and
-                'Analysis' in self.answer['IMPORTANCE']['HIGH']
-            ):
-                self.result_text += (
-                    SurveyResult.QUES_ANS_PAIR[
-                        'HIGH_IMPORTANCE_RECOVERY_AND_ANALYSIS'
-                    ]
-                )
+        if (
+            'Recovery' in self.answer['IMPORTANCE']['HIGH'] and
+            'Analysis' in self.answer['IMPORTANCE']['HIGH']
+        ):
+            self.result_text += (
+                self.text.answers[
+                    'HIGH_IMPORTANCE_RECOVERY_AND_ANALYSIS'
+                ]
+            )
 
-            elif (
-                'Data Quality' in self.answer['IMPORTANCE']['HIGH'] and
-                'Data Dependency' in self.answer['IMPORTANCE']['HIGH']
-            ):
-                self.result_text += (
-                    SurveyResult.QUES_ANS_PAIR[
-                        'HIGH_IMPORTANCE_DATA_QUALITY_AND_DEPENDENCY'
-                    ]
-                )
+        elif (
+            'Data Quality' in self.answer['IMPORTANCE']['HIGH'] and
+            'Data Dependency' in self.answer['IMPORTANCE']['HIGH']
+        ):
+            self.result_text += (
+                self.text.answers[
+                    'HIGH_IMPORTANCE_DATA_QUALITY_AND_DEPENDENCY'
+                ]
+            )
 
         elif 'LOW' in list(self.answer['IMPORTANCE'].keys()):
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR[
+                self.text.answers[
                     'LOW_IMPORTANCE'
                 ]
             )
         elif 'MEDIUM' in list(self.answer['IMPORTANCE'].keys()):
             self.result_text += (
-                SurveyResult.QUES_ANS_PAIR[
+                self.text.answers[
                     'MEDIUM_IMPORTANCE'
                 ]
             )
         else:
-            self.result_text += SurveyResult.QUES_ANS_PAIR['NONE_IMPORTANCE']
+            self.result_text += self.text.answers['NONE_IMPORTANCE']
 
-    def all_survey(self) -> str:
+    def get_result_text(self) -> str:
 
         self.environment_to_use_audit()
         self.audit_type()
@@ -219,12 +208,10 @@ class SurveyChoices:
 
 
 class HtmlSurvey:
-    def __init__(self, HTML_SURVEY):
-        self.HTML_SURVEY = HTML_SURVEY
+    def __init__(self, answer):
+        self.HTML_SURVEY = answer
 
-    # HTML_SURVEY: Dict = {}
-
-    def constructed_survey(self) -> Dict:
+    def get(self) -> Dict:
         Q1_ANSW: str = 'ETL_LOGS'
         Q2_ANSW: str = 'SCRIPT_LOGS'
         Q3_ANSW: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
@@ -236,7 +223,7 @@ class HtmlSurvey:
             'HIGH': ['Data Quality', 'Recovery', 'Analysis']
         }
 
-        self.HTML_SURVEY: Dict = {
+        self.answer: Dict = {
             'ENVIRONMENT': Q1_ANSW,
             'AUDIT_TYPES': Q2_ANSW,
             'AUDIT_CRITERIA': Q3_ANSW,
@@ -244,13 +231,13 @@ class HtmlSurvey:
             'IMPORTANCE': Q5_ANSW
         }
 
-        return self.HTML_SURVEY
+        return self.answer
 
 
-HTML_SURVEY: Dict = {}
-htmlsurvey = HtmlSurvey(HTML_SURVEY=HTML_SURVEY)
-HTML_SURVEY = htmlsurvey.constructed_survey()
-surveyresult = SurveyChoices(answer=HTML_SURVEY)
-print_resultt: str = surveyresult.all_survey()
+answer: Dict = {}
+htmlsurvey = HtmlSurvey(answer=answer)
+answer = htmlsurvey.get()
+surveyresult = SurveyChoices(answer=answer)
+print_resultt: str = surveyresult.get_result_text()
 print(
     f' After the complete survey, the results are ----> \n {print_resultt}')

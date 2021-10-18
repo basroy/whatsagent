@@ -47,17 +47,16 @@ class Answer:
     }
 
     importance: Dict = {
-        'HIGH': 'Must not skip any day.',
-        'MEDIUM': 'The data gets refreshed on next cycle.',
-        'LOW': 'Good to have audits',
+
+        'NOT_HIGH': ['LOW', 'MEDIUM', 'None'],
         'HIGH_choices':
             ['Data Dependency', 'Data Quality', 'Analysis', 'Recovery']
     }
 
 
 class SurveyResult:
-    QUES_ANS_PAIR: Dict = {
-        'ETL_LOG': (
+    answers: Dict = {
+        'ETL_LOGS': (
             'Lorem ipsum 1. Question - ANSWER_1 dolor sit amet, consectetur '
             'adipiscing elit. Mauris sed ligula vitae tellus pellentesque '
             'vehicula nec eu velit. Curabitur luctus et nibh et ornare. '
@@ -70,7 +69,7 @@ class SurveyResult:
             'viverra erat rutrum.Aliquam eget auctor lectus, mollis bl andit '
             'ipsum.Phasellus maximus finibus arcu a tincidunt.'
         ),
-        'ANAPLAN_LOG': (
+        'ANAPLAN_LOGS': (
             'Lorem ipsum 1. Question - ANSWER_2 dolor sit amet, consectetur'
             ' adipiscing elit. Ut et augue id leo egestas interdum in eu '
             'lectus. Aliquam vel finibus nisi. Vestibulum mattis sagittis '
@@ -253,7 +252,7 @@ class SurveyResult:
         )
     }
 
-    def small_size_in_megabytes(self, gb_size) -> str:
+    def small_size_in_megabytes(self, gb_size: float) -> str:
         return (
             f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
             f'Integer porta at odio ac rhoncus. Filesize: {gb_size} Integer '
@@ -272,7 +271,7 @@ class SurveyResult:
 
         )
 
-    def large_size_in_megabytes(self, gb_size) -> str:
+    def large_size_in_megabytes(self, gb_size: float) -> str:
         return (
             f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
             f'FileSize:{gb_size} Vivamus hendrerit arcu eros, nec bibendum mi'
