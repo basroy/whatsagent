@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from surveyreport.survey_text import SurveyResult
+from report.text import Text
 
 
 class Question:
@@ -21,34 +21,25 @@ class Question:
     }
 
 
-class SurveyChoices:
+class Choices:
 
     def __init__(self, answer):
         self.result_text = ''
         self.answer = answer
-        self.text = SurveyResult()
+        self.text = Text()
 
     def environment_to_use_audit(self):
 
         self.result_text += '\n'
 
-        if self.answer['ENVIRONMENT'] == 'ETL_LOGS':
-            self.result_text = self.text.answers['ETL_LOGS']
-
-        elif self.answer['ENVIRONMENT'] == 'ANAPLAN_LOGS':
-            self.result_text = self.text.answers[
-                'ANAPLAN_LOG']
-
-        elif self.answer['ENVIRONMENT'] == 'ANAPLAN_DATA':
-            self.result_text = self.text.answers[
-                'ANAPLAN_DATA']
-
-        elif (
+        if (
             self.answer['ENVIRONMENT'] == 'SHELL'
             or self.answer['ENVIRONMENT'] == 'FILES'
         ):
             self.result_text = self.text.answers[
                 'SHELL_OR_FILES']
+        else:
+            self.result_text = self.text.answers[self.answer['ENVIRONMENT']]
 
     def audit_type(self):
         self.result_text += '\n'
@@ -101,21 +92,17 @@ class SurveyChoices:
 
         if NLG_selection:
             self.result_text += (
-                self.text.answers[
-                    'NLG_PLANNING_AND_GOALING_AND_CXTSSATR'
-                ]
+                self.text.answers['NLG_PLANNING_AND_GOALING_AND_CXTSSATR']
             )
 
         elif SCLASS_selection:
             self.result_text = (
-                self.text.answers[
-                    'SCLASS_PARTY_AND_SCLASS_CONTAINER'
-                ]
+                self.text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
             )
         elif SCLASS_and_DATAHUB:
             self.result_text += (
                 self.text.answers[
-                    'SCLASS_PPARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
+                    'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
                 ]
             )
 
@@ -159,17 +146,12 @@ class SurveyChoices:
     def audit_importance(self):
         self.result_text += '\n'
 
-        print(list(self.answer['IMPORTANCE'].keys()))
-        if 'HIGH' in list(self.answer['IMPORTANCE'].keys()):
-            print(list(self.answer['IMPORTANCE']['HIGH']))
         if (
             'Recovery' in self.answer['IMPORTANCE']['HIGH'] and
             'Analysis' in self.answer['IMPORTANCE']['HIGH']
         ):
             self.result_text += (
-                self.text.answers[
-                    'HIGH_IMPORTANCE_RECOVERY_AND_ANALYSIS'
-                ]
+                self.text.answers['HIGH_IMPORTANCE_RECOVERY_AND_ANALYSIS']
             )
 
         elif (
@@ -182,13 +164,13 @@ class SurveyChoices:
                 ]
             )
 
-        elif 'LOW' in list(self.answer['IMPORTANCE'].keys()):
+        elif 'LOW' == self.answer['IMPORTANCE']['NOT_HIGH']:
             self.result_text += (
                 self.text.answers[
                     'LOW_IMPORTANCE'
                 ]
             )
-        elif 'MEDIUM' in list(self.answer['IMPORTANCE'].keys()):
+        elif 'MEDIUM' == self.answer['IMPORTANCE']['NOT_HIGH']:
             self.result_text += (
                 self.text.answers[
                     'MEDIUM_IMPORTANCE'
@@ -208,8 +190,6 @@ class SurveyChoices:
 
 
 class HtmlSurvey:
-    def __init__(self, answer):
-        self.HTML_SURVEY = answer
 
     def get(self) -> Dict:
         Q1_ANSW: str = 'ETL_LOGS'
@@ -221,6 +201,7 @@ class HtmlSurvey:
         }
         Q5_ANSW: Dict = {
             'HIGH': ['Data Quality', 'Recovery', 'Analysis']
+            # 'NOT_HIGH': 'LOW'
         }
 
         self.answer: Dict = {
@@ -234,10 +215,9 @@ class HtmlSurvey:
         return self.answer
 
 
-answer: Dict = {}
-htmlsurvey = HtmlSurvey(answer=answer)
+htmlsurvey = HtmlSurvey()
 answer = htmlsurvey.get()
-surveyresult = SurveyChoices(answer=answer)
+surveyresult = Choices(answer=answer)
 print_resultt: str = surveyresult.get_result_text()
 print(
     f' After the complete survey, the results are ----> \n {print_resultt}')

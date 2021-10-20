@@ -12,7 +12,7 @@ class Answer:
             'For batch-processed jobs, any errored Anaplan api '
             'executions.'
         ),
-        'ANAPLAN_DATA': (
+        'ANAPLAN_DATA_QUALITY': (
             'This will allow for comparison of data cells '
             'between one or more modules or lists'
         ),
@@ -48,13 +48,14 @@ class Answer:
 
     importance: Dict = {
 
-        'NOT_HIGH': ['LOW', 'MEDIUM', 'None'],
-        'HIGH_choices':
+        'NOT_HIGH': ['LOW', 'MEDIUM', None],
+        'HIGH':
             ['Data Dependency', 'Data Quality', 'Analysis', 'Recovery']
+
     }
 
 
-class SurveyResult:
+class Text:
     answers: Dict = {
         'ETL_LOGS': (
             'Lorem ipsum 1. Question - ANSWER_1 dolor sit amet, consectetur '
@@ -143,7 +144,7 @@ class SurveyResult:
             ' eget libero nec lectus placerat congue. Aenean nec tortor a '
             'ligula aliquam pharetra. Aenean et magna enim.'
         ),
-        'SCLASS_PPARTY_or_SCLASS_CONTAINER_AND_DATAHUB': (
+        'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB': (
             'orem ipsum dolor sit amet, consectetur adipiscing elit. '
             'Vestibulum dictum, dui non auctor tristique, odio sem 3. Question'
             ' - ANSWER_2 and ANSWER_5 convallis lacus, non gravida libero erat'
