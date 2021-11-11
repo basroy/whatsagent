@@ -146,6 +146,7 @@ class Choices:
     def audit_importance(self):
         self.result_text += '\n'
 
+        print(self.answer['IMPORTANCE']['HIGH'])
         if (
             'Recovery' in self.answer['IMPORTANCE']['HIGH'] and
             'Analysis' in self.answer['IMPORTANCE']['HIGH']

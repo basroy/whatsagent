@@ -17,20 +17,69 @@ class TestEnvironment(unittest.TestCase):
         choices.environment_to_use_audit()
         self.assertEqual(choices.result_text + 'aaaa',
                          Text.answers['ETL_LOGS'])
-        print(choices.result_text)
 
-#
-# class TestEnvironment(unittest.TestCase):
-#     def answer_selected_only_two(self):
-#         data: List = ['SCLASS_CONTAINER', 'SCLASS_INVALID_PARTY']
-#         result: int = step_one(data)
-#         self.assertEqual(result, 2)
-#
-#     def answer_selected_only_three(self):
-#         data: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
-#         result: int = step_one(data)
-#         self.assertEqual(result, 3)
-#
-#
+    def test_answer_anaplan_logs(self):
+        Q1_ANSW: str = 'ANAPLAN_LOGS'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text, Text.answers['ANAPLAN_LOGS'])
+
+    def test_answer_anaplan_data(self):
+        Q1_ANSW: str = 'ANAPLAN_DATA_QUALITY'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text,
+                         Text.answers['ANAPLAN_DATA_QUALITY'])
+
+    def test_answer_shell(self):
+        Q1_ANSW: str = 'SHELL'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text, Text.answers['SHELL_OR_FILES'])
+
+    def test_answer_files(self):
+        Q1_ANSW: str = 'FILES'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text, Text.answers['SHELL_OR_FILES'])
+
+    def test_answer_python(self):
+        Q1_ANSW: str = 'SHELL_PYTHON_OUTPUT'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text,
+                         Text.answers['SHELL_PYTHON_OUTPUT'])
+
+    def test_answer_binary(self):
+        Q1_ANSW: str = 'BINARY_LOG_AND_OTHERS'
+        answer: Dict = {
+            'ENVIRONMENT': Q1_ANSW
+        }
+
+        choices = Choices(answer=answer)
+        choices.environment_to_use_audit()
+        self.assertEqual(choices.result_text,
+                         Text.answers['BINARY_LOG_AND_OTHERS'])
+
 # if __name__ == __main__:
 #     unittest.main()
