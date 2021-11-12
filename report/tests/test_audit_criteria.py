@@ -1,5 +1,5 @@
 import unittest
-from typing import Dict
+from typing import List
 
 from report.survey_gen import Choices
 from report.text import Text
@@ -8,27 +8,24 @@ from report.text import Text
 class TestAuditCriteria(unittest.TestCase):
 
     def test_answer_planning_goaling_cxtssatr(self):
-        Q3_ANSW: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
-        answer: Dict = {
-            'AUDIT_TYPES': Q3_ANSW
-        }
+        test_answer: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
 
-        choices = Choices(answer=answer)
+        choices = Choices(answer={'AUDIT_CRITERIA': test_answer})
         choices.audit_anaplan_models()
-        self.assertEqual(choices.result_text,
-                         '\n' +
-                         Text.answers['NLG_PLANNING_AND_GOALING_AND_CXTSSATR'])
+
+        self.assertEqual(
+            choices.result_text,
+            '\n' + Text.answers['NLG_PLANNING_AND_GOALING_AND_CXTSSATR']
+        )
 
     def test_answer_sclass_party_container_datahub(self):
-        Q3_ANSW: List = [
-            'SCLASS_INVALID_PARTY', 'SCLASS_CONTAINER', 'DATA_HUB'
-        ]
-        answer: Dict = {
-            'AUDIT_TYPES': Q3_ANSW
-        }
+        test_answer: List = ['DATA_HUB', 'SCLASS_CONTAINER']
 
-        choices = Choices(answer=answer)
+        choices = Choices(answer={'AUDIT_CRITERIA': test_answer})
         choices.audit_anaplan_models()
+        print(choices.result_text)
+        print(Text.answers[
+                  'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB'])
         self.assertEqual(
             choices.result_text,
             '\n' +
@@ -37,13 +34,20 @@ class TestAuditCriteria(unittest.TestCase):
             ]
         )
 
-    def test_answer_sclass_party_container(self):
-        Q3_ANSW: List = ['SCLASS_INVALID_PARTY', 'SCLASS_CONTAINER']
-        answer: Dict = {
-            'AUDIT_TYPES': Q3_ANSW
-        }
+    def test_answer_sclass_container(self):
+        test_answer: str = 'SCLASS_CONTAINER'
 
-        choices = Choices(answer=answer)
+        choices = Choices(answer={'AUDIT_CRITERIA': test_answer})
+        choices.audit_anaplan_models()
+        self.assertEqual(
+            choices.result_text,
+            '\n' + Text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
+        )
+
+    def test_answer_sclass_party(self):
+        test_answer: str = 'SCLASS_INVALID_PARTY'
+
+        choices = Choices(answer={'AUDIT_CRITERIA': test_answer})
         choices.audit_anaplan_models()
         self.assertEqual(
             choices.result_text,
@@ -51,11 +55,12 @@ class TestAuditCriteria(unittest.TestCase):
         )
 
     def test_answer_datahub(self):
-        Q3_ANSW: List = ['DATA_HUB']
-        answer: Dict = {
-            'AUDIT_TYPES': Q3_ANSW
-        }
+        test_answer: List = ['DATA_HUB']
 
-        choices = Choices(answer=answer)
+        choices = Choices(answer={'AUDIT_CRITERIA': test_answer})
         choices.audit_anaplan_models()
-        self.assertEqual(choices.result_text, '\n' + Text.answers['DATAHUB'])
+
+        self.assertEqual(
+            choices.result_text,
+            '\n' + Text.answers['DATAHUB']
+        )
