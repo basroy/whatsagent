@@ -41,7 +41,7 @@ class TestAuditCriteria(unittest.TestCase):
         choices.audit_anaplan_models()
         self.assertEqual(
             choices.result_text,
-            '\n' + Text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
+            '\n' + Text.answers['SCLASS_PARTY_OR_SCLASS_CONTAINER']
         )
 
     def test_answer_sclass_party(self):
@@ -51,7 +51,7 @@ class TestAuditCriteria(unittest.TestCase):
         choices.audit_anaplan_models()
         self.assertEqual(
             choices.result_text,
-            '\n' + Text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
+            '\n' + Text.answers['SCLASS_PARTY_OR_SCLASS_CONTAINER']
         )
 
     def test_answer_datahub(self):

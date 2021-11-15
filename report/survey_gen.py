@@ -90,14 +90,15 @@ class Choices:
             ]
         )
 
+        DATAHUB: bool = all(
+            [
+                'DATA_HUB' in self.answer['AUDIT_CRITERIA']
+            ]
+        )
+
         if NLG_selection:
             self.result_text += (
                 self.text.answers['NLG_PLANNING_AND_GOALING_AND_CXTSSATR']
-            )
-
-        elif SCLASS_selection:
-            self.result_text = (
-                self.text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
             )
         elif SCLASS_and_DATAHUB:
             self.result_text += (
@@ -105,6 +106,18 @@ class Choices:
                     'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
                 ]
             )
+
+        # elif SCLASS_selection and DATAHUB:
+        #     self.result_text += (
+        #         self.text.answers[
+        #             'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
+        #         ]
+        #     )
+        elif SCLASS_selection:
+            self.result_text += (
+                self.text.answers['SCLASS_PARTY_OR_SCLASS_CONTAINER']
+            )
+
 
         elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
             self.result_text += self.text.answers['DATAHUB']
@@ -146,7 +159,6 @@ class Choices:
     def audit_importance(self):
         self.result_text += '\n'
 
-        print(self.answer['IMPORTANCE']['HIGH'])
         if (
             'Recovery' in self.answer['IMPORTANCE']['HIGH'] and
             'Analysis' in self.answer['IMPORTANCE']['HIGH']
@@ -177,8 +189,14 @@ class Choices:
                     'MEDIUM_IMPORTANCE'
                 ]
             )
+        elif 'NONE_IMPORTANCE' == self.answer['IMPORTANCE']['NOT_HIGH']:
+            self.result_text += (
+                self.text.answers[
+                    'NONE_IMPORTANCE'
+                ]
+            )
         else:
-            self.result_text += self.text.answers['NONE_IMPORTANCE']
+            self.result_text += ''
 
     def get_result_text(self) -> str:
 
@@ -195,7 +213,8 @@ class HtmlSurvey:
     def get(self) -> Dict:
         Q1_ANSW: str = 'ETL_LOGS'
         Q2_ANSW: str = 'SCRIPT_LOGS'
-        Q3_ANSW: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
+        Q3_ANSW: List = ['DATA_HUB', 'SCLASS_CONTAINER']
+        # ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
         Q4_ANSW: Dict = {
             'SIZE': 4,
             'UNIT': 'GB'
@@ -220,5 +239,5 @@ htmlsurvey = HtmlSurvey()
 answer = htmlsurvey.get()
 surveyresult = Choices(answer=answer)
 print_resultt: str = surveyresult.get_result_text()
-print(
-    f' After the complete survey, the results are ----> \n {print_resultt}')
+# print(
+#     f' After the complete survey, the results are ----> \n {print_resultt}')
