@@ -60,7 +60,7 @@ class Choices:
                 self.text.answers['BINARY_LOG_AND_OTHERS']
             )
 
-    def audit_anaplan_models(self):
+    def audit_criteria(self):
 
         self.result_text += '\n'
 
@@ -77,24 +77,9 @@ class Choices:
                 'SCLASS_INVALID_PARTY' in self.answer['AUDIT_CRITERIA']
             ]
         )
+        DATAHUB: bool = 'DATA_HUB' in self.answer['AUDIT_CRITERIA']
 
-        SCLASS_and_DATAHUB: bool = all(
-            [
-                'DATA_HUB' in self.answer['AUDIT_CRITERIA'],
-                any(
-                    [
-                        'SCLASS_CONTAINER' in self.answer['AUDIT_CRITERIA'],
-                        'SCLASS_INVALID_PARTY' in self.answer['AUDIT_CRITERIA']
-                    ]
-                )
-            ]
-        )
-
-        DATAHUB: bool = all(
-            [
-                'DATA_HUB' in self.answer['AUDIT_CRITERIA']
-            ]
-        )
+        SCLASS_and_DATAHUB: bool = all([DATAHUB, SCLASS_selection])
 
         if NLG_selection:
             self.result_text += (
@@ -107,19 +92,13 @@ class Choices:
                 ]
             )
 
-        # elif SCLASS_selection and DATAHUB:
-        #     self.result_text += (
-        #         self.text.answers[
-        #             'SCLASS_PARTY_or_SCLASS_CONTAINER_AND_DATAHUB'
-        #         ]
-        #     )
         elif SCLASS_selection:
             self.result_text += (
                 self.text.answers['SCLASS_PARTY_OR_SCLASS_CONTAINER']
             )
 
-
-        elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
+        # elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
+        elif DATAHUB:
             self.result_text += self.text.answers['DATAHUB']
 
     def filesize(self):
@@ -127,15 +106,14 @@ class Choices:
 
         if self.answer['FSIZE']['UNIT'] == 'GB':
             gb_to_mb: float = round(self.answer['FSIZE']['SIZE'] * 1024, 2)
-
         else:
             gb_to_mb: float = round(self.answer['FSIZE']['SIZE'], 2)
 
         if (
-            self.answer['FSIZE']['SIZE'] > 2
+            self.answer['FSIZE']['SIZE'] >= 2
             and self.answer['FSIZE']['UNIT'] == 'GB'
         ) or (
-            self.answer['FSIZE']['SIZE'] > 100
+            self.answer['FSIZE']['SIZE'] >= 100
             and self.answer['FSIZE']['UNIT'] == 'MB'
         ):
             self.result_text += self.text.large_size_in_megabytes(
@@ -152,9 +130,9 @@ class Choices:
             self.result_text += self.text.small_size_in_megabytes(
                 gb_size=gb_to_mb
             )
-
-        else:
-            self.result_text += ' Filesize is too large to handle '
+        #
+        # else:
+        #     self.result_text += ' Filesize is too large to handle '
 
     def audit_importance(self):
         self.result_text += '\n'
@@ -202,7 +180,7 @@ class Choices:
 
         self.environment_to_use_audit()
         self.audit_type()
-        self.audit_anaplan_models()
+        self.audit_criteria()
         self.filesize()
         self.audit_importance()
         return self.result_text
@@ -221,7 +199,6 @@ class HtmlSurvey:
         }
         Q5_ANSW: Dict = {
             'HIGH': ['Data Quality', 'Recovery', 'Analysis']
-            # 'NOT_HIGH': 'LOW'
         }
 
         self.answer: Dict = {
