@@ -7,42 +7,94 @@ from report.text import Text
 
 class TestFileSize(unittest.TestCase):
 
-    def test_answer_large_file(self):
+    def calc_gb_size(self, unit: str, size: int) -> float:
+        if unit == 'GB':
+            return round(size * 1024, 2)
+        else:
+            return round(size, 2)
+
+    def test_answer_large_gb_file(self):
+
+        test_answer: Dict = {
+            'SIZE': 2,
+            'UNIT': 'GB'
+        }
+
+        gb_to_mb: float = TestFileSize.calc_gb_size(
+            self,
+            unit=test_answer['UNIT'],
+            size=test_answer['SIZE']
+        )
+
+        choices = Choices(answer={'FSIZE': test_answer})
+        choices.filesize()
+        text = Text()
+
+        self.assertEqual(
+            choices.result_text,
+            '\n' +
+            text.large_size_in_megabytes(gb_size=gb_to_mb)
+        )
+
+    def test_answer_large_mb_file(self):
+
         test_answer: Dict = {
             'SIZE': 200,
             'UNIT': 'MB'
         }
-        if test_answer['UNIT'] == 'GB':
-            gb_to_mb: float = round(test_answer['SIZE'] * 1024, 2)
 
-        else:
-            gb_to_mb: float = round(test_answer['SIZE'], 2)
+        gb_to_mb: float = TestFileSize.calc_gb_size(
+            self,
+            unit=test_answer['UNIT'],
+            size=test_answer['SIZE']
+        )
 
         choices = Choices(answer={'FSIZE': test_answer})
         choices.filesize()
+        text = Text()
 
         self.assertEqual(
             choices.result_text,
             '\n' +
-            Text.large_size_in_megabytes(self, gb_size=gb_to_mb)
+            text.large_size_in_megabytes(gb_size=gb_to_mb)
         )
 
-    def test_answer_small_file(self):
+    def test_answer_small_gb_file(self):
         test_answer: Dict = {
             'SIZE': 1,
             'UNIT': 'GB'
         }
-        if test_answer['UNIT'] == 'GB':
-            gb_to_mb: float = round(test_answer['SIZE'] * 1024, 2)
-
-        else:
-            gb_to_mb: float = round(test_answer['SIZE'], 2)
+        gb_to_mb: float = TestFileSize.calc_gb_size(
+            self,
+            unit=test_answer['UNIT'],
+            size=test_answer['SIZE']
+        )
 
         choices = Choices(answer={'FSIZE': test_answer})
         choices.filesize()
-
+        text = Text()
         self.assertEqual(
             choices.result_text,
             '\n' +
-            Text.small_size_in_megabytes(self, gb_size=gb_to_mb)
+            text.small_size_in_megabytes(gb_size=gb_to_mb)
+        )
+
+    def test_answer_small_mb_file(self):
+        test_answer: Dict = {
+            'SIZE': 49,
+            'UNIT': 'MB'
+        }
+        gb_to_mb: float = TestFileSize.calc_gb_size(
+            self,
+            unit=test_answer['UNIT'],
+            size=test_answer['SIZE']
+        )
+
+        choices = Choices(answer={'FSIZE': test_answer})
+        choices.filesize()
+        text = Text()
+        self.assertEqual(
+            choices.result_text,
+            '\n' +
+            text.small_size_in_megabytes(gb_size=gb_to_mb)
         )
