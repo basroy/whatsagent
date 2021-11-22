@@ -20,8 +20,7 @@ class TestFileSize(unittest.TestCase):
             'UNIT': 'GB'
         }
 
-        gb_to_mb: float = TestFileSize.calc_gb_size(
-            self,
+        gb_to_mb: float = self.calc_gb_size(
             unit=test_answer['UNIT'],
             size=test_answer['SIZE']
         )
@@ -43,8 +42,7 @@ class TestFileSize(unittest.TestCase):
             'UNIT': 'MB'
         }
 
-        gb_to_mb: float = TestFileSize.calc_gb_size(
-            self,
+        gb_to_mb: float = self.calc_gb_size(
             unit=test_answer['UNIT'],
             size=test_answer['SIZE']
         )
@@ -64,8 +62,7 @@ class TestFileSize(unittest.TestCase):
             'SIZE': 1,
             'UNIT': 'GB'
         }
-        gb_to_mb: float = TestFileSize.calc_gb_size(
-            self,
+        gb_to_mb: float = self.calc_gb_size(
             unit=test_answer['UNIT'],
             size=test_answer['SIZE']
         )
@@ -84,8 +81,7 @@ class TestFileSize(unittest.TestCase):
             'SIZE': 49,
             'UNIT': 'MB'
         }
-        gb_to_mb: float = TestFileSize.calc_gb_size(
-            self,
+        gb_to_mb: float = self.calc_gb_size(
             unit=test_answer['UNIT'],
             size=test_answer['SIZE']
         )
