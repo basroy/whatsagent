@@ -104,11 +104,9 @@ class Choices:
     def filesize(self):
         self.result_text += '\n'
 
-        if self.answer['FSIZE']['UNIT'] == 'GB':
-            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'] * 1024, 2)
-        else:
-            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'], 2)
-
+        gb_to_mb: float = self.text.calc_gb_size(self.answer['FSIZE']['UNIT'],
+                                                 self.answer['FSIZE']['SIZE']
+                                                 )
         if (
             self.answer['FSIZE']['SIZE'] >= 2
             and self.answer['FSIZE']['UNIT'] == 'GB'
@@ -130,9 +128,6 @@ class Choices:
             self.result_text += self.text.small_size_in_megabytes(
                 gb_size=gb_to_mb
             )
-        #
-        # else:
-        #     self.result_text += ' Filesize is too large to handle '
 
     def audit_importance(self):
         self.result_text += '\n'
@@ -210,11 +205,3 @@ class HtmlSurvey:
         }
 
         return self.answer
-
-
-htmlsurvey = HtmlSurvey()
-answer = htmlsurvey.get()
-surveyresult = Choices(answer=answer)
-print_resultt: str = surveyresult.get_result_text()
-# print(
-#     f' After the complete survey, the results are ----> \n {print_resultt}')

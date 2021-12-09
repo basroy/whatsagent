@@ -272,7 +272,15 @@ class Text:
 
         )
 
+    def calc_gb_size(self, unit: str, size: int) -> float:
+        
+        if unit == 'GB':
+            return round(size * 1024, 2)
+        else:
+            return round(size, 2)
+
     def large_size_in_megabytes(self, gb_size: float) -> str:
+
         return (
             f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
             f'FileSize:{gb_size} Vivamus hendrerit arcu eros, nec bibendum mi'
