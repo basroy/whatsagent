@@ -60,7 +60,7 @@ class Choices:
                 self.text.answers['BINARY_LOG_AND_OTHERS']
             )
 
-    def audit_anaplan_models(self):
+    def audit_criteria(self):
 
         self.result_text += '\n'
 
@@ -77,27 +77,13 @@ class Choices:
                 'SCLASS_INVALID_PARTY' in self.answer['AUDIT_CRITERIA']
             ]
         )
+        DATAHUB: bool = 'DATA_HUB' in self.answer['AUDIT_CRITERIA']
 
-        SCLASS_and_DATAHUB: bool = all(
-            [
-                'DATA_HUB' in self.answer['AUDIT_CRITERIA'],
-                any(
-                    [
-                        'SCLASS_CONTAINER' in self.answer['AUDIT_CRITERIA'],
-                        'SCLASS_INVALID_PARTY' in self.answer['AUDIT_CRITERIA']
-                    ]
-                )
-            ]
-        )
+        SCLASS_and_DATAHUB: bool = all([DATAHUB, SCLASS_selection])
 
         if NLG_selection:
             self.result_text += (
                 self.text.answers['NLG_PLANNING_AND_GOALING_AND_CXTSSATR']
-            )
-
-        elif SCLASS_selection:
-            self.result_text = (
-                self.text.answers['SCLASS_PARTY_AND_SCLASS_CONTAINER']
             )
         elif SCLASS_and_DATAHUB:
             self.result_text += (
@@ -106,23 +92,26 @@ class Choices:
                 ]
             )
 
-        elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
+        elif SCLASS_selection:
+            self.result_text += (
+                self.text.answers['SCLASS_PARTY_OR_SCLASS_CONTAINER']
+            )
+
+        # elif 'DATA_HUB' in self.answer['AUDIT_CRITERIA']:
+        elif DATAHUB:
             self.result_text += self.text.answers['DATAHUB']
 
     def filesize(self):
         self.result_text += '\n'
 
-        if self.answer['FSIZE']['UNIT'] == 'GB':
-            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'] * 1024, 2)
-
-        else:
-            gb_to_mb: float = round(self.answer['FSIZE']['SIZE'], 2)
-
+        gb_to_mb: float = self.text.calc_gb_size(self.answer['FSIZE']['UNIT'],
+                                                 self.answer['FSIZE']['SIZE']
+                                                 )
         if (
-            self.answer['FSIZE']['SIZE'] > 2
+            self.answer['FSIZE']['SIZE'] >= 2
             and self.answer['FSIZE']['UNIT'] == 'GB'
         ) or (
-            self.answer['FSIZE']['SIZE'] > 100
+            self.answer['FSIZE']['SIZE'] >= 100
             and self.answer['FSIZE']['UNIT'] == 'MB'
         ):
             self.result_text += self.text.large_size_in_megabytes(
@@ -139,9 +128,6 @@ class Choices:
             self.result_text += self.text.small_size_in_megabytes(
                 gb_size=gb_to_mb
             )
-
-        else:
-            self.result_text += ' Filesize is too large to handle '
 
     def audit_importance(self):
         self.result_text += '\n'
@@ -176,14 +162,20 @@ class Choices:
                     'MEDIUM_IMPORTANCE'
                 ]
             )
+        elif 'NONE_IMPORTANCE' == self.answer['IMPORTANCE']['NOT_HIGH']:
+            self.result_text += (
+                self.text.answers[
+                    'NONE_IMPORTANCE'
+                ]
+            )
         else:
-            self.result_text += self.text.answers['NONE_IMPORTANCE']
+            self.result_text += ''
 
     def get_result_text(self) -> str:
 
         self.environment_to_use_audit()
         self.audit_type()
-        self.audit_anaplan_models()
+        self.audit_criteria()
         self.filesize()
         self.audit_importance()
         return self.result_text
@@ -194,14 +186,14 @@ class HtmlSurvey:
     def get(self) -> Dict:
         Q1_ANSW: str = 'ETL_LOGS'
         Q2_ANSW: str = 'SCRIPT_LOGS'
-        Q3_ANSW: List = ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
+        Q3_ANSW: List = ['DATA_HUB', 'SCLASS_CONTAINER']
+        # ['NLG_CX_TSS_ATR', 'NLG_GOALING', 'NLG_PLANNING']
         Q4_ANSW: Dict = {
             'SIZE': 4,
             'UNIT': 'GB'
         }
         Q5_ANSW: Dict = {
             'HIGH': ['Data Quality', 'Recovery', 'Analysis']
-            # 'NOT_HIGH': 'LOW'
         }
 
         self.answer: Dict = {
@@ -213,11 +205,3 @@ class HtmlSurvey:
         }
 
         return self.answer
-
-
-htmlsurvey = HtmlSurvey()
-answer = htmlsurvey.get()
-surveyresult = Choices(answer=answer)
-print_resultt: str = surveyresult.get_result_text()
-print(
-    f' After the complete survey, the results are ----> \n {print_resultt}')

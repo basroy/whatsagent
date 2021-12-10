@@ -48,7 +48,7 @@ class Answer:
 
     importance: Dict = {
 
-        'NOT_HIGH': ['LOW', 'MEDIUM', None],
+        'NOT_HIGH': ['LOW', 'MEDIUM', 'NONE_IMPORTANCE'],
         'HIGH':
             ['Data Dependency', 'Data Quality', 'Analysis', 'Recovery']
 
@@ -156,7 +156,7 @@ class Text:
             'iaculis interdum pulvinar. Vivamus sit amet sagittis risus. Morbi'
             ' ut pellentesque sapien.'
         ),
-        'SCLASS_PARTY_AND_SCLASS_CONTAINER': (
+        'SCLASS_PARTY_OR_SCLASS_CONTAINER': (
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras '
             'viverra luctus nunc, non ultrices mauris molestie vitae. Sed '
             '4gravida purus finibus 3. Question - ANSWER_4, ANSWER_3 or '
@@ -272,7 +272,15 @@ class Text:
 
         )
 
+    def calc_gb_size(self, unit: str, size: int) -> float:
+        
+        if unit == 'GB':
+            return round(size * 1024, 2)
+        else:
+            return round(size, 2)
+
     def large_size_in_megabytes(self, gb_size: float) -> str:
+
         return (
             f'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
             f'FileSize:{gb_size} Vivamus hendrerit arcu eros, nec bibendum mi'
