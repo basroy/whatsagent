@@ -7,7 +7,7 @@
 
 import unittest
 from typing import Dict
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import requests
 
@@ -31,7 +31,8 @@ def get_mock_response() -> Dict:
              'full_link': 'https://www.amazon.com/dp/B09JJ1NKDK/?psc=1',
              'prices': {'current_price': 459.99, 'previous_price': -1.0,
                         'currency': '$'},
-             'reviews': {'total_reviews': 34, 'stars': 3.8}, 'prime': False,
+             'reviews': {'total_reviews': 34, 'stars': 3.8},
+             'prime': False,
              'sponsored': True}
         ]}
     }
@@ -68,8 +69,15 @@ class TestProductFeature(unittest.TestCase):
     #                                           'stars': 4.1},
     #                               'prime': False, 'sponsored': True}]}
     # })])
+    #
 
-    def test_price_greater_than_minus_one(self, mock_requests):
+    def test_price_greater_than_minus_one(
+        self,
+        *args,
+        **kwargs) -> Mock:
+        mock_response: Mock = Mock()
+        mock_response.status_code = 200
+
         request = ProductRequest()
         res_from_api: requests.Response = request.get(params={
             'country': 'US',
@@ -78,9 +86,28 @@ class TestProductFeature(unittest.TestCase):
         print(res_from_api.json())
 
         res_data = res_from_api.json()
-        get_product = Product(data=res_data, amount=5)
-        products = get_product.get()
-        print(products)
+        get_product = Product(data=res_data, amount=-1.0, validity=True)
+        valid_products: List = get_product.get_product_detail()
+
+        get_product = Product(data=res_data, amount=-1.0, validity=False)
+        invalid_products: List = get_product.get_product_detail()
+
+        print(valid_products)
+        print(invalid_products)
+        return mock_response
+
+    # def test_price_greater_than_minus_one(self, mock_requests):
+    #     request = ProductRequest()
+    #     res_from_api: requests.Response = request.get(params={
+    #         'country': 'US',
+    #         'query': 'Pixel',
+    #         'page': '1'})
+    #     print(res_from_api.json())
+    #
+    #     res_data = res_from_api.json()
+    #     get_product = Product(data=res_data, amount=-1.0)
+    #     products = get_product.get_product()
+    #     print(products)
 
     def test_valid_title(self):
         pass

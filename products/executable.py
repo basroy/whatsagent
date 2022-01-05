@@ -5,7 +5,7 @@ from products.parse import Product
 
 res_data: Dict = product_features_fromamazon.pixel_data
 # request = ProductRequest(data=res_data, amount=-1.0)
-request = Product(data=res_data, amount=-1.0)
+request = Product(data=res_data, amount=-1.0, validity=True)
 products = request.get_product()
 print(len(products))
 
