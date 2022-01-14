@@ -6,36 +6,89 @@
 # Let's say for some reason we want to get higher price products so that we could get a higher commission from Amazon if someone is buying a product through our link. (Check if the price is not lower than $5)
 
 import unittest
-from typing import Dict
+from typing import Dict, List
 from unittest.mock import Mock, patch
 
 import requests
 
-from products.parse import Product
+from products.parse import Products
 from products.request import ProductRequest
 
 
-def get_mock_response() -> Dict:
-    return {
-        'status_code': 200,
-        'json.return_value': {'results': [
-            {'asin': 'FAKE_B09JJ1NKDK',
-             'title': f'Google Pixel 4 (128GB, 6GB) 5.7", IP68 Water '
-                      f'Resistant, Snapdragon 855, GSM/CDMA Factory Unlocked '
-                      f'(AT&T/T-Mobile/Verizon/Fi) w/Fast Qi Wireless Pad '
-                      f'(Clearly White)',
-             'image': (
-                 f'https://m.media-amazon.com/images/I/517rGuQMegL'
-                 f'._AC_UY218_.jpg'
-             ),
-             'full_link': 'https://www.amazon.com/dp/B09JJ1NKDK/?psc=1',
-             'prices': {'current_price': 459.99, 'previous_price': -1.0,
-                        'currency': '$'},
-             'reviews': {'total_reviews': 34, 'stars': 3.8},
-             'prime': False,
-             'sponsored': True}
-        ]}
-    }
+class MockResponse:
+    def __init__(self):
+        pass
+
+    def get_product(self, current_price: float) -> Dict:
+        return {
+            'asin': 'FAKE_B09JJ1NKDK',
+            'title': f'Google Pixel 4 (128GB, 6GB) 5.7", IP68 Water '
+                     f'Resistant, Snapdragon 855, GSM/CDMA Factory Unlocked '
+                     f'(AT&T/T-Mobile/Verizon/Fi) w/Fast Qi Wireless Pad '
+                     f'(Clearly White)',
+            'image': (
+                f'https://m.media-amazon.com/images/I/517rGuQMegL'
+                f'._AC_UY218_.jpg'
+            ),
+            'full_link': 'https://www.amazon.com/dp/B09JJ1NKDK/?psc=1',
+            'prices': {'current_price': current_price,
+                       'previous_price': -1.0,
+                       'currency': '$'},
+            'reviews': {
+                'total_reviews': 34,
+                'stars': 3.8
+            },
+            'prime': False,
+            'sponsored': True
+        }
+
+    def get_product_price_higher_than_minus_one(self, *args, **kwargs) -> Mock:
+        mock_response: Mock = Mock()
+        mock_response.status_code = 200
+
+        invalid_price_products: List = [
+            self.get_product(current_price=-1.0) for _ in range(10)
+        ]
+
+        valid_price_products: List = [
+            self.get_product(current_price=435.45) for _ in range(10)
+        ]
+        products = invalid_price_products + valid_price_products
+
+        mock_response.json.return_value = {
+            'results': products
+        }
+        return mock_response
+
+    def get_mock_response() -> Dict:
+        return {
+            'status_code': 200,
+            'json.return_value': {
+                'results': [
+                    {
+                        'asin': 'FAKE_B09JJ1NKDK',
+                        'title': f'Google Pixel 4 (128GB, 6GB) 5.7", IP68 Water '
+                                 f'Resistant, Snapdragon 855, GSM/CDMA Factory Unlocked '
+                                 f'(AT&T/T-Mobile/Verizon/Fi) w/Fast Qi Wireless Pad '
+                                 f'(Clearly White)',
+                        'image': (
+                            f'https://m.media-amazon.com/images/I/517rGuQMegL'
+                            f'._AC_UY218_.jpg'
+                        ),
+                        'full_link': 'https://www.amazon.com/dp/B09JJ1NKDK/?psc=1',
+                        'prices': {'current_price': 459.99,
+                                   'previous_price': -1.0,
+                                   'currency': '$'},
+                        'reviews': {
+                            'total_reviews': 34,
+                            'stars': 3.8
+                        },
+                        'prime': False,
+                        'sponsored': True
+                    }
+                ]
+            }
+        }
 
 
 class TestProductFeature(unittest.TestCase):
@@ -44,70 +97,24 @@ class TestProductFeature(unittest.TestCase):
     @patch.object(
         target=requests,
         attribute='get',
-        side_effect=[
-            Mock(**get_mock_response())
-        ]
+        # side_effect=[Mock(**get_mock_response())]
+        side_effect=MockResponse().get_product_price_higher_than_minus_one
     )
-    #                                                                   {
-    #     'status_code': 200,
-    #     'json.return_value': {'results': [
-    #         {'asin': 'FAKE_B09JJ1NKDK',
-    #          'title': 'Google Pixel 4 (128GB, 6GB) 5.7", IP68 Water Resistant, Snapdragon 855, GSM/CDMA Factory Unlocked (AT&T/T-Mobile/Verizon/Fi) w/Fast Qi Wireless Pad (Clearly White)',
-    #          'image': 'https://m.media-amazon.com/images/I/517rGuQMegL._AC_UY218_.jpg',
-    #          'full_link': 'https://www.amazon.com/dp/B09JJ1NKDK/?psc=1',
-    #          'prices': {'current_price': 459.99, 'previous_price': -1.0,
-    #                     'currency': '$'},
-    #          'reviews': {'total_reviews': 34, 'stars': 3.8}, 'prime': False,
-    #          'sponsored': True}, {'asin': 'B08C4BXY41',
-    #                               'title': "Mobile Pixels Trio Max Portable Monitor, 14'' Full HD IPS Dual Triple Monitor for laptops, USB C/USB A Portable Screen,Windows/Mac/OS/Android/Switch Compatible (1x Monitor Only)",
-    #                               'image': 'https://m.media-amazon.com/images/I/81uySvxGB4L._AC_UY218_.jpg',
-    #                               'full_link': 'https://www.amazon.com/dp/B08C4BXY41/?psc=1',
-    #                               'prices': {'current_price': 309.0,
-    #                                          'previous_price': 329.0,
-    #                                          'currency': '$'},
-    #                               'reviews': {'total_reviews': 997,
-    #                                           'stars': 4.1},
-    #                               'prime': False, 'sponsored': True}]}
-    # })])
-    #
-
-    def test_price_greater_than_minus_one(
-        self,
-        *args,
-        **kwargs) -> Mock:
-        mock_response: Mock = Mock()
-        mock_response.status_code = 200
-
+    def test_price_greater_than_minus_one(self, *args, **kwargs):
         request = ProductRequest()
-        res_from_api: requests.Response = request.get(params={
+
+        res: requests.Response = request.get(params={
             'country': 'US',
             'query': 'Pixel',
             'page': '1'})
-        print(res_from_api.json())
 
-        res_data = res_from_api.json()
-        get_product = Product(data=res_data, amount=-1.0, validity=True)
-        valid_products: List = get_product.get_product_detail()
+    res_data: Dict = res.json()
+    print(res_data)
 
-        get_product = Product(data=res_data, amount=-1.0, validity=False)
-        invalid_products: List = get_product.get_product_detail()
-
-        print(valid_products)
-        print(invalid_products)
-        return mock_response
-
-    # def test_price_greater_than_minus_one(self, mock_requests):
-    #     request = ProductRequest()
-    #     res_from_api: requests.Response = request.get(params={
-    #         'country': 'US',
-    #         'query': 'Pixel',
-    #         'page': '1'})
-    #     print(res_from_api.json())
-    #
-    #     res_data = res_from_api.json()
-    #     get_product = Product(data=res_data, amount=-1.0)
-    #     products = get_product.get_product()
-    #     print(products)
+    products = Products(data=res_data, amount=5).get()
+    for product in products:
+        self.assertNotEqual(product['price'], -1.0)
+    print(products)
 
     def test_valid_title(self):
         pass

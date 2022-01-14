@@ -5,7 +5,7 @@ import requests
 
 class ProductRequest:
 
-    def __init__(self):
+    def __init__(self, ):
         self.url = 'https://amazon-products1.p.rapidapi.com/search'
         self.headers = {
             'x-rapidapi-host': 'amazon-products1.p.rapidapi.com',

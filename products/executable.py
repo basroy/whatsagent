@@ -1,13 +1,13 @@
 from typing import Dict
 
 import product_features_fromamazon
-from products.parse import Product
+from request import ProductRequest
 
 res_data: Dict = product_features_fromamazon.pixel_data
-# request = ProductRequest(data=res_data, amount=-1.0)
-request = Product(data=res_data, amount=-1.0, validity=True)
-products = request.get_product()
+request = ProductRequest(data=res_data, amount=-1.0)
+products = request.get()
 print(len(products))
+# breakpoint()
 
 with open('products.txt', 'w') as f:
     # f.write(products[i]['current_price'])
