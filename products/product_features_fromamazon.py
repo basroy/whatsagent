@@ -1047,3 +1047,9 @@ real_simple: Dict = {'error': False, 'current_page': 1, 'next_page': 2,
                                   'reviews': {'total_reviews': 13,
                                               'stars': 4.9}, 'prime': False,
                                   'sponsored': True}]}
+#
+# for enum in range(10):
+#     product: str = pixel_data['results'][enum]['title']
+#
+#     price: float = pixel_data['results'][enum]['prices']['current_price']
+#     print(f'Product: {product} at price {price}')
