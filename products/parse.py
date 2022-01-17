@@ -6,7 +6,7 @@ class Products:
         self.data = data
         self.amount = amount
 
-    def get(self):
+    def get(self) -> List:
         five_products: List = []
         for product in self.data['results']:
 
@@ -16,9 +16,7 @@ class Products:
                 'price': product['prices']['current_price'],
                 'image': product['image']
             }
-            if (
-                product_feature['price'] > -1.0
-            ):
+            if (product_feature['price'] > -1.0 ):
                 five_products.append(product_feature)
 
             if len(five_products) >= self.amount:

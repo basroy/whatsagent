@@ -9,10 +9,11 @@ import unittest
 from typing import Dict, List
 from unittest.mock import Mock, patch
 
+import product_features_fromamazon as pix
 import requests
+import random
 from parse import Products
 from request import ProductRequest
-
 
 class MockResponse:
     def __init__(self):
@@ -42,16 +43,40 @@ class MockResponse:
             'sponsored': sponsored
         }
 
+    def get_products(self, invalid_products: List) -> Mock:
+        mock_response: Mock = Mock()
+        mock_response.status_code = 200
+
+        invalid_price_products: List = invalid_products
+
+
+        valid_price_products: List = [
+            self.get_product(
+                current_price=pix.pixel_data['results'][enum]['prices'][
+                    'current_price'],
+                title=pix.pixel_data['results'][enum]['title'],
+                asin=pix.pixel_data['results'][enum]['asin'],
+                image=pix.pixel_data['results'][enum]['image'],
+                full_link=pix.pixel_data['results'][enum][
+                    'full_link'],
+                reviews=
+                pix.pixel_data['results'][enum]['reviews']['stars'],
+                prime=pix.pixel_data['results'][enum]['prime'],
+                sponsored=pix.pixel_data['results'][enum]['sponsored']
+            ) for enum in range(10)
+        ]
+        products = invalid_price_products + valid_price_products
+        random.shuffle(products)
+
+        mock_response.json.return_value = {
+            'results': products
+        }
+        return mock_response
+
+
     def get_product_price_higher_than_minus_one(self, *args, **kwargs) -> Mock:
         mock_response: Mock = Mock()
         mock_response.status_code = 200
-        import product_features_fromamazon as pix
-
-        # title: List = [
-        #     pix.pixel_data['results'][enum]['title']
-        #     for enum in range(10)
-        # ]
-        # print(title)
 
         invalid_price_products: List = [
             self.get_product(
@@ -67,26 +92,52 @@ class MockResponse:
             # for _ in range(10)
         ]
 
-        valid_price_products: List = [
+        # valid_price_products: List = [
+        #     self.get_product(
+        #         current_price=435.45,
+        #         title=pix.pixel_data['results'][enum]['title'],
+        #         asin=pix.pixel_data['results'][enum]['asin'],
+        #         image=pix.pixel_data['results'][enum]['image'],
+        #         full_link=pix.pixel_data['results'][enum][
+        #             'full_link'],
+        #         reviews=
+        #         pix.pixel_data['results'][enum]['reviews']['stars'],
+        #         prime=pix.pixel_data['results'][enum]['prime'],
+        #         sponsored=pix.pixel_data['results'][enum]['sponsored']
+        #     ) for enum in range(10)
+        # ]
+        # products = invalid_price_products + valid_price_products
+        # products = self.get_products(invalid_products=invalid_price_products)
+        #
+        # mock_response.json.return_value = {
+        #     'results': products
+        # }
+        # return mock_response
+
+        return  self.get_products(invalid_products=invalid_price_products)
+
+    def get_product_valid_and_invalid_title(self, *args, **kwargs) -> Mock:
+        mock_response: Mock = Mock()
+        mock_response.status_code = 200
+
+        invalid_title_products: List = [
             self.get_product(
-                current_price=435.45,
-                title=pix.pixel_data['results'][enum]['title'],
+                current_price=pix.pixel_data['results'][enum]['prices'][
+                    'current_price'],
+                title='',
                 asin=pix.pixel_data['results'][enum]['asin'],
                 image=pix.pixel_data['results'][enum]['image'],
-                full_link=pix.pixel_data['results'][enum][
-                    'full_link'],
-                reviews=
-                pix.pixel_data['results'][enum]['reviews']['stars'],
+                full_link=pix.pixel_data['results'][enum]['full_link'],
+                reviews=pix.pixel_data['results'][enum]['reviews']['stars'],
                 prime=pix.pixel_data['results'][enum]['prime'],
                 sponsored=pix.pixel_data['results'][enum]['sponsored']
             ) for enum in range(10)
+            # for _ in range(10)
         ]
-        products = invalid_price_products + valid_price_products
+        return self.get_products(invalid_products=invalid_title_products)
+        # return mock_response
 
-        mock_response.json.return_value = {
-            'results': products
-        }
-        return mock_response
+
 
     def get_mock_response() -> Dict:
         return {
@@ -122,29 +173,39 @@ class MockResponse:
 class TestProductFeature(unittest.TestCase):
     test_data: Mock = Mock()
 
-    @patch.object(
-        target=requests,
-        attribute='get',
-        # side_effect=[Mock(**get_mock_response())]
-        side_effect=MockResponse().get_product_price_higher_than_minus_one
-    )
-    def test_price_greater_than_minus_one(self, *args, **kwargs):
+    def execute_request_and_get_product(self) -> List:
         request = ProductRequest()
-        res: requests.Response = request.get(params={
+        res: requests.Response = request.get(
+            params={
             'country': 'US',
             'query': 'Pixel',
             'page': 1
         }
         )
         res_data: Dict = res.json()
-        print(res_data)
+        # print(res_data)
+        return Products(data=res_data, amount=5).get()
 
-        products = Products(data=res_data, amount=5).get()
+    @patch.object(
+        target=requests,
+        attribute='get',
+        side_effect=MockResponse().get_product_price_higher_than_minus_one
+    )
+    def test_price_greater_than_minus_one(self, *args, **kwargs):
+
+        products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(product['price'], -1.0)
-            print(product)
+            print(f'Pricing related --> {product}')
 
-        # print(products)
-
-    def test_valid_title(self):
-        pass
+    @patch.object(
+        target=requests,
+        attribute='get',
+        # side_effect=[Mock(**get_mock_response())]
+        side_effect=MockResponse().get_product_valid_and_invalid_title
+    )
+    def test_valid_title(self, *args, **kwargs):
+        products = self.execute_request_and_get_product()
+        for product in products:
+            self.assertNotEqual(len(product['title']),0)
+            print(f'Title related --> {product}' )
