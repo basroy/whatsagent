@@ -1,12 +1,19 @@
 from typing import Dict
 
+import requests
+
 import product_features_fromamazon
-from request import ProductRequest
+from products.request import ProductRequest
 
 res_data: Dict = product_features_fromamazon.pixel_data
-request = ProductRequest(data=res_data, amount=-1.0)
-products = request.get()
-print(len(products))
+# request = ProductRequest(data=res_data, amount=-1.0)
+request = ProductRequest()
+res: requests.Response = request.get(params={
+            'country': 'US',
+            'query': 'Pixel',
+            'page': 1
+        })
+# print(len(res))
 # breakpoint()
 
 with open('products.txt', 'w') as f:
