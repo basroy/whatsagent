@@ -1,12 +1,4 @@
-# We want to make sure we only get the products with a price higher than -1.0
-# We want to make sure we only get the products with a valid title We want to
-# make sure we only get the products with an image We want to make sure we
-# only get the products with a proper link (Check if "www.amazon.com" is in
-# the link) We want to make sure we only get the products with currency
-# dollars (Check if "$" is in the currency) Let's say for some reason we want
-# to get higher price products so that we could get a higher commission from
-# Amazon if someone is buying a product through our link. (Check if the price
-# is not lower than $5)
+
 
 import unittest
 from typing import Dict, List
@@ -29,23 +21,24 @@ class MockResponse:
             current_price: float,
 
             title: str = 'Google Pixel 4a with 5G - Android Phone',
-            image: str = 'https://m.media-amazon.com/images/I/71C0OH4WfpL._AC_UY218_.jpg',
+            image: str = 'https://m.media-amazon.com/images/I/'
+                         '71C0OH4WfpL._AC_UY218_.jpg',
             full_link: str = 'https://www.amazon.com/dp/B08H8VZ6PV/?psc=1',
             currency: str = '$'
 
     ) -> Dict:
-        enum: int = 3
+
         return {
-            'asin': pix.pixel_data['results'][enum]['asin'],
+            'asin': 'B09JJ1NKDK',
             'title': title,
             'image': image,
             'full_link': full_link,
             'prices': {'current_price': current_price,
                        'previous_price': -1.0,
                        'currency': currency},
-            'reviews': pix.pixel_data['results'][enum]['reviews']['stars'],
-            'prime': pix.pixel_data['results'][enum]['asin'],
-            'sponsored': pix.pixel_data['results'][enum]['sponsored']
+            'reviews': 3.8,
+            'prime': False,
+            'sponsored': True
         }
 
     def get_products(self, invalid_products: List) -> Mock:
@@ -54,7 +47,6 @@ class MockResponse:
 
         invalid_price_products: List = invalid_products
 
-        #current_price=pix.pixel_data['results'][enum]['prices']['current_price']
         valid_price_products: List = [
             self.get_product(current_price=435.04) for _ in range(10)
         ]
@@ -159,11 +151,11 @@ class MockResponse:
         }
 
 
-class TestProductFeature(unittest.TestCase):
-    test_data: Mock = Mock()
+class TestProduct(unittest.TestCase):
 
-    def execute_request_and_get_product(self, test_name) -> List:
-        # res_data: Dict = pix.pixel_data['results']
+
+    def execute_request_and_get_product(self) -> List:
+
         request = ProductRequest()
         res: requests.Response = request.get(
             params={
@@ -173,79 +165,77 @@ class TestProductFeature(unittest.TestCase):
         }
         )
         res_data: Dict = res.json()
-        # print(res_data)
-        # return Products(data=res_data, amount=5).get()
-        return Products(data=res_data, amount=5, test_name=test_name).get()
+        return Products(data=res_data, amount=5).get()
 
-    @patch.object(
-        target=requests,
-        attribute='get',
-        side_effect=MockResponse().get_product_price_higher_than_minus_one
-    )
-    def test_price_greater_than_minus_one(self, *args, **kwargs):
 
-        products = self.execute_request_and_get_product(test_name='price')
-        print(products)
+    def test_price_greater_than_minus_one(self):
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_price_higher_than_minus_one
+        )
+        with mocked_product_request:
+            products: List = self.execute_request_and_get_product()
+
         for product in products:
-            print(f'Pricing related --> {product}')
             self.assertNotEqual(product['price'], -1.0)
 
 
-    @patch.object(
-        target=requests,
-        attribute='get',
-        side_effect=MockResponse().get_product_valid_and_invalid_title
-    )
-    def test_valid_title(self, *args, **kwargs):
-        products = self.execute_request_and_get_product(test_name='title')
+    def test_valid_title(self):
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_valid_and_invalid_title
+        )
+        with mocked_product_request:
+            products = self.execute_request_and_get_product()
         for product in products:
-            print(f'Title related --> {product}')
             self.assertNotEqual(len(product['title']),0)
+            print(f'Title related --> {product}')
 
-    @patch.object(
-                target=requests,
-                attribute='get',
-                side_effect=MockResponse().
-                    get_product_valid_and_invalid_image
-    )
-    def test_valid_image(self, *args, **kwargs):
-        products = self.execute_request_and_get_product(test_name='image')
+    def test_valid_image(self):
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_valid_and_invalid_image
+        )
+        with mocked_product_request:
+            products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['image']),0)
-            print(f'Image related --> {product}' )
 
-    @patch.object(
-                target=requests,
-                attribute='get',
-                side_effect=MockResponse().
-                    get_product_valid_and_invalid_url
-    )
-    def test_valid_url(self, *args, **kwargs):
-        products = self.execute_request_and_get_product(test_name='url')
+
+    def test_valid_url(self):
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_valid_and_invalid_url
+        )
+        with mocked_product_request:
+            products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['url']),0)
-            print(f'URL related --> {product}' )
 
-    @patch.object(
-                target=requests,
-                attribute='get',
-                side_effect=MockResponse().
-                    get_product_valid_and_invalid_currency
-    )
-    def test_valid_currency(self, *args, **kwargs):
-        products = self.execute_request_and_get_product(test_name='currency')
+
+    def test_valid_currency(self):
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_valid_and_invalid_currency
+        )
+        with mocked_product_request:
+            products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['currency']),'EUR')
 
 
-    @patch.object(
-                target=requests,
-                attribute='get',
-                side_effect=MockResponse().
-                    get_product_high_valued
-    )
     def test_price_higher_than_minimum(self, *args, **kwargs):
-        products = self.execute_request_and_get_product(test_name='minimum')
+        mocked_product_request = patch.object(
+            target=requests,
+            attribute='get',
+            side_effect=MockResponse().get_product_high_valued
+        )
+        with mocked_product_request:
+            products =  self.execute_request_and_get_product()
         for product in products:
             self.assertLessEqual(product['price'],450.19)
-            print(f'High Value related --> {product}' )

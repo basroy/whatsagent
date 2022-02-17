@@ -23,3 +23,88 @@ Products#4
 	377.58
 	https://www.amazon.com/dp/B07YMNLXL3/?psc=1
 	https://m.media-amazon.com/images/I/713N4SwTtKL._AC_UY218_.jpg
+Products#5
+	Pixel 4 - Clearly White - 64GB - Unlocked (Renewed)
+	241.0
+	https://www.amazon.com/dp/B0824CTTQ7/?psc=1
+	https://m.media-amazon.com/images/I/61D4hZNZ5jL._AC_UY218_.jpg
+Products#6
+	Pixels
+	2.99
+	https://www.amazon.com/dp/B0175FR85W/?psc=1
+	https://m.media-amazon.com/images/I/91xrsmHJ9cL._AC_UY218_.jpg
+Products#7
+	Google Pixel 2 128GB Unlocked GSM/CDMA 4G LTE Octa-Core Phone w/ 12.2MP Camera - Just Black
+	130.99
+	https://www.amazon.com/dp/B0766HPGYP/?psc=1
+	https://m.media-amazon.com/images/I/61v0enHOXpL._AC_UY218_.jpg
+Products#8
+	Google - Pixel 3 with 64GB Memory Cell Phone (Unlocked) - Not Pink
+	219.95
+	https://www.amazon.com/dp/B07KSSQQLZ/?psc=1
+	https://m.media-amazon.com/images/I/71krmniFaeL._AC_UY218_.jpg
+Products#9
+	Google - Pixel 3a with 64GB Memory Cell Phone (Unlocked) - Just Black
+	279.99
+	https://www.amazon.com/dp/B07R7DY911/?psc=1
+	https://m.media-amazon.com/images/I/81T-FKC695L._AC_UY218_.jpg
+Products#10
+	USB C Fast Charger, Wangmai 30W A&C Dual-Port Foldable PD Type c Charger, USB C Wall Charger Block for iPhone 13/12/11/Pro Max/XS/XR/X,iPad Pro, Pixel, Galaxy, and More
+	13.99
+	https://www.amazon.com/dp/B095H15WLP/?psc=1
+	https://m.media-amazon.com/images/I/41d2GIVkmaL._AC_UY218_.jpg
+Products#11
+	Google Pixel 3 Unlocked Smartphone - 64GB Memory Cell Phone, Just Black, w/Charging Stand, Wired Earbuds and Google Charger - Bundle Set
+	225.0
+	https://www.amazon.com/dp/B098V2B362/?psc=1
+	https://m.media-amazon.com/images/I/61YNb0vcezS._AC_UY218_.jpg
+Products#12
+	Google Pixel 5A 5G 128GB 6GB RAM Factory Unlocked (GSM Only | No CDMA - not Compatible with Verizon/Sprint) International Version - Black
+	472.83
+	https://www.amazon.com/dp/B09DV93S9K/?psc=1
+	https://m.media-amazon.com/images/I/51E7J1JKKXL._AC_UY218_.jpg
+Products#13
+	Google Pixel 2 XL 64GB Unlocked GSM/CDMA 4G LTE Octa-Core Smart Phone (Just Black)
+	154.99
+	https://www.amazon.com/dp/B0766TPHSH/?psc=1
+	https://m.media-amazon.com/images/I/81dXcgzgqkL._AC_UY218_.jpg
+Products#14
+	Pixels (4K UHD)
+	3.99
+	https://www.amazon.com/dp/B01EGAMEC6/?psc=1
+	https://m.media-amazon.com/images/I/914FRjkuyHL._AC_UY218_.jpg
+Products#15
+	Pixel C100 LED Continuous Output Video Light with Barn Door/4 Color Filters, 120W 5600K 98000lux CRI97+ TLCI99+ Photography Studio Light, Remote Controller for Portrait Shooting and Video Recording
+	169.99
+	https://www.amazon.com/dp/B08KS4FKVP/?psc=1
+	https://m.media-amazon.com/images/I/71pBI4nky-L._AC_UY218_.jpg
+Products#16
+	Google Pixel 4a with 5G - Android Phone - New Unlocked Smartphone with Night Sight and Ultrawide Lens - Just Black (Renewed)
+	358.0
+	https://www.amazon.com/dp/B08R61G69Q/?psc=1
+	https://m.media-amazon.com/images/I/71DgN0WGe4L._AC_UY218_.jpg
+Products#17
+	Unlocked Google Pixel 4 - 64GB - Just Black - GA01187-US (Renewed)
+	244.99
+	https://www.amazon.com/dp/B082YF9MMW/?psc=1
+	https://m.media-amazon.com/images/I/51Bch2bRtLL._AC_UY218_.jpg
+Products#18
+	Unlocked Google Pixel 5 128GB Just Black GA01316-US (Renewed)
+	429.0
+	https://www.amazon.com/dp/B08MV7HWFK/?psc=1
+	https://m.media-amazon.com/images/I/81Uho2XBxQL._AC_UY218_.jpg
+Products#19
+	Google Pixel 3 64GB Unlocked GSM & CDMA 4G LTE - Just Black (Renewed)
+	150.99
+	https://www.amazon.com/dp/B07KX8DXW8/?psc=1
+	https://m.media-amazon.com/images/I/51YNSBaJ6oL._AC_UY218_.jpg
+Products#20
+	Syncwire USB C Charger 30W Fast Wall Charger GaN II Mini Power Adapter PD Charger for iPhone 13 Pro Max/iPhone 12 Pro Max, MacBook Air, iPad Pro,Galaxy S21/ S21+,Pixel 6 Pro/6(Cable not Included)
+	16.99
+	https://www.amazon.com/dp/B09BQWHTQK/?psc=1
+	https://m.media-amazon.com/images/I/41dJiKfatVL._AC_UY218_.jpg
+Products#21
+	Jusy Case for Google Pixel 6 Pro, Enhanced Grip Durable Light Shockproof Flexible TPU Rubber Protective Cover for Pixel 6 Pro (Red)
+	8.99
+	https://www.amazon.com/dp/B09KMQK8QY/?psc=1
+	https://m.media-amazon.com/images/I/71CnNIF3FSL._AC_UY218_.jpg
