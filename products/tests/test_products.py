@@ -72,7 +72,7 @@ class MockResponse:
         invalid_title_products: List = [
             self.get_product( current_price=435.0, title='') for _ in range(10)
         ]
-        # print(invalid_title_products)
+
         return self.get_products(invalid_products=invalid_title_products)
 
     def get_product_valid_and_invalid_image(self, *args, **kwargs) -> Mock:
@@ -191,7 +191,7 @@ class TestProduct(unittest.TestCase):
             products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['title']),0)
-            print(f'Title related --> {product}')
+
 
     def test_valid_image(self):
         mocked_product_request = patch.object(

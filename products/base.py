@@ -63,7 +63,7 @@ with open('products.txt', 'w') as f:
                                 f'\n\t{product_url}' \
                                 f'\n\t{product_image}\n'
         f.write(products_to_file)
-        print(products_to_file)
+
 
 f.close()
 
