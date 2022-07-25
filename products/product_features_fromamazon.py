@@ -1,5 +1,6 @@
 from typing import Dict
 
+
 pixel_data: Dict = {
     'error': False,
     'current_page': 1,

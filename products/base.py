@@ -3,7 +3,6 @@ from typing import Dict, List
 import requests
 import product_features_fromamazon
 
-
 class ProductRequest:
 
     def __init__(self, data: Dict, amount: float):

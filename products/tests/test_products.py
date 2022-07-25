@@ -58,14 +58,13 @@ class MockResponse:
         }
         return mock_response
 
-
     def get_product_price_higher_than_minus_one(self, *args, **kwargs) -> Mock:
 
         invalid_price_products: List = [
             self.get_product( current_price=-1.0) for _ in range(10)
         ]
 
-        return  self.get_products(invalid_products=invalid_price_products)
+        return self.get_products(invalid_products=invalid_price_products)
 
     def get_product_valid_and_invalid_title(self, *args, **kwargs) -> Mock:
 
@@ -153,9 +152,7 @@ class MockResponse:
 
 class TestProduct(unittest.TestCase):
 
-
     def execute_request_and_get_product(self) -> List:
-
         request = ProductRequest()
         res: requests.Response = request.get(
             params={
@@ -166,7 +163,6 @@ class TestProduct(unittest.TestCase):
         )
         res_data: Dict = res.json()
         return Products(data=res_data, amount=5).get()
-
 
     def test_price_greater_than_minus_one(self):
         mocked_product_request = patch.object(
@@ -180,7 +176,6 @@ class TestProduct(unittest.TestCase):
         for product in products:
             self.assertNotEqual(product['price'], -1.0)
 
-
     def test_valid_title(self):
         mocked_product_request = patch.object(
             target=requests,
@@ -191,7 +186,6 @@ class TestProduct(unittest.TestCase):
             products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['title']),0)
-
 
     def test_valid_image(self):
         mocked_product_request = patch.object(
@@ -204,7 +198,6 @@ class TestProduct(unittest.TestCase):
         for product in products:
             self.assertNotEqual(len(product['image']),0)
 
-
     def test_valid_url(self):
         mocked_product_request = patch.object(
             target=requests,
@@ -216,7 +209,6 @@ class TestProduct(unittest.TestCase):
         for product in products:
             self.assertNotEqual(len(product['url']),0)
 
-
     def test_valid_currency(self):
         mocked_product_request = patch.object(
             target=requests,
@@ -227,7 +219,6 @@ class TestProduct(unittest.TestCase):
             products = self.execute_request_and_get_product()
         for product in products:
             self.assertNotEqual(len(product['currency']),'EUR')
-
 
     def test_price_higher_than_minimum(self, *args, **kwargs):
         mocked_product_request = patch.object(
