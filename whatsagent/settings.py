@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%qxd68yl5ya&2ct=_roi7o3u4z2v3jwa%3d7--)^)mh5an6yie'
+# SECRET_KEY = 'django-insecure-%qxd68yl5ya&2ct=_roi7o3u4z2v3jwa%3d7--)^)mh5an6yie'
+SECRET_KEY = os.getenv('SECRET_KEY')
+MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
+GMAIL_SENDER_APP_KEY = os.getenv('GMAIL_SENDER_APP_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,7 +92,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# If need to delete db is to rename it check that settings.py has the
+# db_sqlite3 name instead of renamed db name.
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -131,7 +136,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ORIGIN_WHITELIST = [
-    'https://localhost:3000',
-    'https://127.0.0.1:3000'
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
