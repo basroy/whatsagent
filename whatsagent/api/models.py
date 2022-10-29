@@ -5,7 +5,6 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-from whatsagent.api import models as mdl
 
 
 class TimestampedModel(models.Model):

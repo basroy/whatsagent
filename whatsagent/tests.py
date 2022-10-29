@@ -67,12 +67,40 @@ class TestSignup(TestCase):
                          }
         )
 
+    def test_failed_to_send_email(self):
+        client: APIClient = APIClient()
+        payload = {
+            'name': 'bashobi',
+            'email': 'bashobi@gmai.com',
+            'password': 'adsfghlColo!',
+            'terms': True
+        }
+
+        mocked_email = patch.object(
+            target=requests,
+            attribute='post',
+            side_effect=requests.HTTPError
+        )
+        with mocked_email:
+            res: Response = client.post(
+                path=f'/api/signup/',
+                data=json.dumps(payload),
+                content_type='application/json'
+            )
+
+        self.assertEqual(res.status_code, 503)
+        self.assertEqual(res.json(),
+                         {
+                             'detail': 'Service Unavailable'
+                         }
+                         )
+
     def test_successful_signup(self):
         client: APIClient = APIClient()
 
         payload = {
             'name': 'bashobi',
-            'email': 'bashobi@example.com',
+            'email': 'bashobi@gmail.com',
             'password': 'adsfghlColo!',
             'terms': True
         }

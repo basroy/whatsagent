@@ -1,6 +1,6 @@
 import typing
 import json
-import requests
+
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse
 from django.http.response import HttpResponse
@@ -8,8 +8,6 @@ from django.views.decorators.http import require_http_methods
 
 from whatsagent.serializers import SignupSerializer
 
-from rest_framework.decorators import api_view
-# from rest_framework.exceptions import APIException
 from rest_framework import serializers
 from whatsagent.api.models import User
 
@@ -22,6 +20,7 @@ from email.message import EmailMessage as pymail
 from enum import Enum
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import APIException
+from django.db.transaction import atomic
 
 
 class EmailStatus(Enum):
@@ -34,6 +33,7 @@ class ServiceUnavailable(APIException):
     status_code = 503
     default_detail = 'Service Unavailable'
     default_code = 'service_unavailable'
+
 
 @require_http_methods('GET')
 def get_sample(r: HttpRequest) -> HttpResponse:
@@ -64,12 +64,16 @@ def send_message(
             user=email_sender,
             password=settings.GMAIL_SENDER_APP_KEY
         )
-        smtp.sendmail(
+        return_sendmail = smtp.sendmail(
             from_addr='bashobi@gmail.com',
             to_addrs=email_receiver,
             msg=gm.as_string()
         )
-        return EmailStatus.SUCCESS.value
+        print(f'Standard sendmail status {return_sendmail}')
+        if len(return_sendmail) == 0:
+            return EmailStatus.SUCCESS.value
+        else:
+            return EmailStatus.FAILURE.value
     except (
             ValueError,
             googleapiclient.errors.HttpError,
@@ -81,12 +85,39 @@ def send_message(
 
 # @require_http_methods('POST')
 @api_view(['POST'])
+@atomic()
 def user_signup(request: HttpRequest) -> JsonResponse:
     signup_data: typing.Dict = json.loads(request.body)
     serializer = SignupSerializer(data=signup_data)
     serializer.is_valid(raise_exception=True)
     signup_fields: typing.Dict = serializer.data
     print(signup_fields)
+    # User.objects.filter(email=signup_fields['email'].lower()).delete()
+    # return JsonResponse(
+    #     status=201,
+    #     data={
+    #         'detail':
+    #             f'Signup was successful, registration email was sent to '
+    #     }
+    # )
+    user_exists: bool = (
+        User
+            .objects
+            .filter(email=signup_fields['email'].lower())
+            .exists()
+    )
+    email = (User
+        .objects
+        .filter(email=signup_fields['email'].lower() )
+    )
+    # print(f'Does user email exist {user_exists} for {User.objects}')
+    if user_exists:
+        raise serializers.ValidationError({
+            'email':
+                [
+                    'This email address is already being used.'
+                ],
+        })
     if not signup_fields['terms']:
         raise serializers.ValidationError({
             'terms':
@@ -103,14 +134,16 @@ def user_signup(request: HttpRequest) -> JsonResponse:
         signup_fields['password']
     )
     print(user)
-    if send_message(
+    email_status = send_message(
         email_sender='bashobi',
         email_receiver=user.email,
         email_subject='User signup notification',
         email_body=(
             'You have successfully signed up'
         )
-    ):
+    )
+    print(f' Email Sent from UI {email_status}')
+    if email_status == EmailStatus.SUCCESS.value:
         # print(f'In views {user.email}')
         return JsonResponse(
             status=201,
@@ -121,4 +154,5 @@ def user_signup(request: HttpRequest) -> JsonResponse:
             }
         )
     else:
-        raise ServiceUnavailable
+        raise ServiceUnavailable()
+
