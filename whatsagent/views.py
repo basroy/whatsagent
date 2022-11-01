@@ -59,7 +59,6 @@ def send_message(
             port=465,
             context=context
         )
-        print(f'SETTINGS --> {settings.GMAIL_SENDER_APP_KEY}')
         smtp.login(
             user=email_sender,
             password=settings.GMAIL_SENDER_APP_KEY
@@ -69,7 +68,6 @@ def send_message(
             to_addrs=email_receiver,
             msg=gm.as_string()
         )
-        print(f'Standard sendmail status {return_sendmail}')
         if len(return_sendmail) == 0:
             return EmailStatus.SUCCESS.value
         else:
@@ -83,7 +81,6 @@ def send_message(
         return EmailStatus.FAILURE.value
 
 
-# @require_http_methods('POST')
 @api_view(['POST'])
 @atomic()
 def user_signup(request: HttpRequest) -> JsonResponse:
@@ -91,26 +88,14 @@ def user_signup(request: HttpRequest) -> JsonResponse:
     serializer = SignupSerializer(data=signup_data)
     serializer.is_valid(raise_exception=True)
     signup_fields: typing.Dict = serializer.data
-    print(signup_fields)
-    # User.objects.filter(email=signup_fields['email'].lower()).delete()
-    # return JsonResponse(
-    #     status=201,
-    #     data={
-    #         'detail':
-    #             f'Signup was successful, registration email was sent to '
-    #     }
-    # )
+
     user_exists: bool = (
         User
             .objects
             .filter(email=signup_fields['email'].lower())
             .exists()
     )
-    email = (User
-        .objects
-        .filter(email=signup_fields['email'].lower() )
-    )
-    # print(f'Does user email exist {user_exists} for {User.objects}')
+
     if user_exists:
         raise serializers.ValidationError({
             'email':
@@ -126,25 +111,21 @@ def user_signup(request: HttpRequest) -> JsonResponse:
                 ]
         })
 
-    print('Here we are to pass usermodel')
     user: User = User.objects.create_user(
         signup_fields['name'],
         signup_fields['terms'],
         signup_fields['email'],
         signup_fields['password']
     )
-    print(user)
     email_status = send_message(
-        email_sender='bashobi',
+        email_sender='Bashobi',
         email_receiver=user.email,
         email_subject='User signup notification',
         email_body=(
             'You have successfully signed up'
         )
     )
-    print(f' Email Sent from UI {email_status}')
     if email_status == EmailStatus.SUCCESS.value:
-        # print(f'In views {user.email}')
         return JsonResponse(
             status=201,
             data={

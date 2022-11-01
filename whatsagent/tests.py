@@ -119,7 +119,6 @@ class TestSignup(TestCase):
 
         self.assertEqual(res.status_code, 201)
         user = payload.get('email')
-        # print(f'In tests {user}')
         self.assertEqual(
             res.json(),
             {
