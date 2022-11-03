@@ -11,3 +11,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+
+*.sqlite3
+.DS_Store
