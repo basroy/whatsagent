@@ -20,8 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-%qxd68yl5ya&2ct=_roi7o3u4z2v3jwa%3d7--)^)mh5an6yie'
 SECRET_KEY = os.getenv('SECRET_KEY')
 MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
 GMAIL_SENDER_APP_KEY = os.getenv('GMAIL_SENDER_APP_KEY')
@@ -56,7 +54,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

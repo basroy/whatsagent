@@ -9,4 +9,4 @@ class SignupSerializer(serializers.Serializer):
         max_length=16,
         min_length=8
     )
-    terms = serializers.BooleanField( required=True )
+    terms = serializers.BooleanField(required=True)
