@@ -1,6 +1,7 @@
 import typing
 import json
 
+import requests
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse
 from django.http.response import HttpResponse
@@ -59,10 +60,12 @@ def send_message(
             port=465,
             context=context
         )
+
         smtp.login(
             user=email_sender,
             password=settings.GMAIL_SENDER_APP_KEY
         )
+
         return_sendmail = smtp.sendmail(
             from_addr='bashobi@gmail.com',
             to_addrs=email_receiver,
@@ -77,7 +80,7 @@ def send_message(
             googleapiclient.errors.HttpError,
             smtplib.SMTPRecipientsRefused
     ) as e:
-        print(f'An error occurred:{e}')
+
         return EmailStatus.FAILURE.value
 
 

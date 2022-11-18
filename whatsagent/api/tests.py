@@ -9,6 +9,7 @@ from unittest.mock import Mock, patch
 from rest_framework.test import APIClient
 import requests
 from typing import Dict, List
+import smtplib
 
 
 class MockResponse:
@@ -75,11 +76,11 @@ class TestSignup(TestCase):
             'password': 'adsfghlColo!',
             'terms': True
         }
-
+        side_effect = {}
         mocked_email = patch.object(
-            target=requests,
-            attribute='post',
-            side_effect=requests.HTTPError
+            target=smtplib.SMTP_SSL,
+            attribute='login',
+            side_effect=smtplib.SMTPRecipientsRefused(side_effect),
         )
         with mocked_email:
             res: Response = client.post(
@@ -104,7 +105,7 @@ class TestSignup(TestCase):
             'password': 'adsfghlColo!',
             'terms': True
         }
-        print([MockResponse().get_email_mock_success()])
+
         mocked_email = patch.object(
             target=requests,
             attribute='post',

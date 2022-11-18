@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from whatsagent.views import get_sample, user_signup
+from whatsagent.api.views import get_sample, user_signup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
