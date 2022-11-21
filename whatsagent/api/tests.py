@@ -9,6 +9,8 @@ from unittest.mock import Mock, patch
 from rest_framework.test import APIClient
 import requests
 from typing import Dict, List
+
+from .models import User
 import smtplib
 
 
@@ -41,6 +43,111 @@ class MockResponse:
 
 
 class TestSignup(TestCase):
+    def test_invalid_email(self):
+        client: APIClient = APIClient()
+        payload = {
+            'name': 'bashobi',
+            'email': 'bashobiexample.com',
+            'password': 'adsfghlColo!',
+            'terms': False
+        }
+        res: Response = client.post(
+            path=f'/api/signup/',
+            data=json.dumps( payload ),
+            content_type='application/json'
+        )
+        self.assertEqual(
+            res.status_code,
+            400
+        )
+        self.assertEqual(
+            res.json(),
+            {
+                'email': [
+                    'Enter a valid email address.'
+                ]
+            }
+        )
+
+    def test_password_less_than_min_length(self):
+        client: APIClient = APIClient()
+        payload = {
+            'name': 'bashobi',
+            'email': 'bashobi@example.com',
+            'password': 'citzq',
+            'terms': False
+        }
+        res: Response = client.post(
+            path=f'/api/signup/',
+            data=json.dumps( payload ),
+            content_type='application/json'
+        )
+        self.assertEqual(
+            res.status_code,
+            400
+        )
+        self.assertEqual(
+            res.json(),
+            {
+                'password': [
+                    'Ensure this field has at least 8 characters.'
+                ]
+            }
+        )
+
+    def test_password_more_than_max_length(self):
+        client: APIClient = APIClient()
+        payload = {
+            'name': 'bashobi',
+            'email': 'bashobi@example.com',
+            'password': 'citzq,12passwrcitzq',
+            'terms': False
+        }
+        res: Response = client.post(
+            path=f'/api/signup/',
+            data=json.dumps( payload ),
+            content_type='application/json'
+        )
+        self.assertEqual(
+            res.status_code,
+            400
+        )
+        self.assertEqual(
+            res.json(),
+            {
+                'password': [
+                    'Ensure this field has no more than 16 '
+                    'characters.'
+                ]
+            }
+        )
+
+    def test_email_already_exists(self):
+        client: APIClient = APIClient()
+        payload = {
+            'name': 'bashobi',
+            'email': 'bashobi@example.com',
+            'password': 'randopassword1',
+            'terms': False
+        }
+        res: Response = client.post(
+            path=f'/api/signup/',
+            data=json.dumps( payload ),
+            content_type='application/json'
+        )
+
+        does_user_exist: bool = User.objects.filter(
+            email=payload.get( 'email' )
+        ).exists()
+        self.assertEqual(does_user_exist, True )
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.json(),
+                          {
+                              'email': [
+                                  'This email address is already being used.'
+                              ]
+                          } )
+
     def test_unaccepted_terms_checkbox(self):
         client: APIClient = APIClient()
         payload = {

@@ -1,13 +1,12 @@
 import typing
 import json
-
-import requests
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse
-from django.http.response import HttpResponse
-from django.views.decorators.http import require_http_methods
+
 
 from whatsagent.api.serializers.serializers import SignupSerializer
+from whatsagent.api.enums import common as enums
+from whatsagent.api.exceptions import common as exceptions
 
 from rest_framework import serializers
 from whatsagent.api.models import User
@@ -18,27 +17,10 @@ from django.conf import settings
 import ssl
 import smtplib
 from email.message import EmailMessage as pymail
-from enum import Enum
+
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import APIException
+
 from django.db.transaction import atomic
-
-
-class EmailStatus(Enum):
-    SUCCESS = 'email_sending_success'
-    FAILURE = 'email_sending_failure'
-    PROGRESS = 'email_sending_in_progress'
-
-
-class ServiceUnavailable(APIException):
-    status_code = 503
-    default_detail = 'Service Unavailable'
-    default_code = 'service_unavailable'
-
-
-@require_http_methods('GET')
-def get_sample(r: HttpRequest) -> HttpResponse:
-    return HttpResponse(status=200, content=b'sample content')
 
 
 def send_message(
@@ -72,16 +54,16 @@ def send_message(
             msg=gm.as_string()
         )
         if len(return_sendmail) == 0:
-            return EmailStatus.SUCCESS.value
+            return enums.EmailStatus.SUCCESS.value
         else:
-            return EmailStatus.FAILURE.value
+            return enums.EmailStatus.FAILURE.value
     except (
             ValueError,
             googleapiclient.errors.HttpError,
             smtplib.SMTPRecipientsRefused
     ) as e:
 
-        return EmailStatus.FAILURE.value
+        return enums.EmailStatus.FAILURE.value
 
 
 @api_view(['POST'])
@@ -128,7 +110,7 @@ def user_signup(request: HttpRequest) -> JsonResponse:
             'You have successfully signed up'
         )
     )
-    if email_status == EmailStatus.SUCCESS.value:
+    if email_status == enums.EmailStatus.SUCCESS.value:
         return JsonResponse(
             status=201,
             data={
@@ -138,6 +120,6 @@ def user_signup(request: HttpRequest) -> JsonResponse:
             }
         )
     else:
-        raise ServiceUnavailable()
+        raise exceptions.ServiceUnavailable()
 
 
