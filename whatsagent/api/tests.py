@@ -1,17 +1,14 @@
-
 import json
-
-from django.test import TestCase
-from rest_framework.response import Response
-
+import smtplib
+from typing import Dict, List
 from unittest.mock import Mock, patch
 
-from rest_framework.test import APIClient
 import requests
-from typing import Dict, List
+from django.test import TestCase
+from rest_framework.response import Response
+from rest_framework.test import APIClient
 
 from .models import User
-import smtplib
 
 
 class MockResponse:
@@ -30,7 +27,6 @@ class MockResponse:
         }
 
     def get_email_mock_success(self) -> Mock:
-
         mock_response: Mock = Mock()
         mock_response.status_code = 200
         email: List = ['bashobiroy@yahoo.com']
@@ -53,7 +49,7 @@ class TestSignup(TestCase):
         }
         res: Response = client.post(
             path=f'/api/signup/',
-            data=json.dumps( payload ),
+            data=json.dumps(payload),
             content_type='application/json'
         )
         self.assertEqual(
@@ -79,7 +75,7 @@ class TestSignup(TestCase):
         }
         res: Response = client.post(
             path=f'/api/signup/',
-            data=json.dumps( payload ),
+            data=json.dumps(payload),
             content_type='application/json'
         )
         self.assertEqual(
@@ -105,7 +101,7 @@ class TestSignup(TestCase):
         }
         res: Response = client.post(
             path=f'/api/signup/',
-            data=json.dumps( payload ),
+            data=json.dumps(payload),
             content_type='application/json'
         )
         self.assertEqual(
@@ -130,23 +126,29 @@ class TestSignup(TestCase):
             'password': 'randopassword1',
             'terms': False
         }
+
+        User.objects.create_user(
+            payload['name'],
+            payload['terms'],
+            payload['email'].lower(),
+            payload['password']
+        )
+
         res: Response = client.post(
             path=f'/api/signup/',
-            data=json.dumps( payload ),
+            data=json.dumps(payload),
             content_type='application/json'
         )
 
-        does_user_exist: bool = User.objects.filter(
-            email=payload.get( 'email' )
-        ).exists()
-        self.assertEqual(does_user_exist, True )
         self.assertEqual(res.status_code, 400)
-        self.assertEqual(res.json(),
-                          {
-                              'email': [
-                                  'This email address is already being used.'
-                              ]
-                          } )
+        self.assertEqual(
+            res.json(),
+            {
+                'email': [
+                    'This email address is already being used.'
+                ]
+            }
+        )
 
     def test_unaccepted_terms_checkbox(self):
         client: APIClient = APIClient()
@@ -168,11 +170,11 @@ class TestSignup(TestCase):
         )
         self.assertEqual(
             res.json(),
-                         {
-                             'terms': [
-                                 'You must accept terms and conditions'
-                             ]
-                         }
+            {
+                'terms': [
+                    'You must accept terms and conditions'
+                ]
+            }
         )
 
     def test_failed_to_send_email(self):
@@ -223,7 +225,7 @@ class TestSignup(TestCase):
                 path=f'/api/signup/',
                 data=json.dumps(payload),
                 content_type='application/json'
-                )
+            )
 
         self.assertEqual(res.status_code, 201)
         user = payload.get('email')
