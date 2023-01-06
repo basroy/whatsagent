@@ -5,6 +5,14 @@ name = "pypi"
 
 [packages]
 requests = "*"
+django = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django-extensions = "*"
+google-api-python-client = "*"
+django-environ = "*"
+django-dotenv = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
